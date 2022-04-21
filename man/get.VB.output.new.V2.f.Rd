@@ -5,10 +5,11 @@
 \title{xxx}
 \usage{
 get.VB.output.new.V2.f(
-  aname.unloads,
-  aname.cae,
-  aname.lfmm,
-  aname.lfgrpd,
+  dir,
+  name.unloads,
+  name.cae,
+  name.lfmm,
+  name.lfgrpd,
   yr.start,
   yr.end
 )

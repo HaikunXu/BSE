@@ -4,19 +4,21 @@
 #' 
 #' @export
 
-get.VB.output.new.V2.f = function(aname.unloads,aname.cae,aname.lfmm,aname.lfgrpd,yr.start,yr.end)
+get.VB.output.new.V2.f = function(dir,name.unloads,name.cae,name.lfmm,name.lfgrpd,yr.start,yr.end)
 {
-  # spp comp P-S
-  #
-  # get and minimally processes the data output by the Miscellaneous.exe VB programs
-  #
-  # the filenames of the VB output are specified with: aname.*
-  # yr.start and yr.end are the start and end years of the data
-  #
-  # January 24, 2017: edited to use new cae read function: read.cae.new.f
-  #
   # Get the total unloads for the PS fleet
-  total.unlds<-read.unloads.f(aname.unloads,yr.start,yr.end)
+  # read in data
+  tmpfrm<-read.table(paste0(dir,afile),header=F)
+  names(tmpfrm)<-c("year","gear","flag","yft","skj","bet","pbf","alb","bkj","bzx")
+  #
+  # trim by gear and years
+  tmpfrm.ps<-tmpfrm[tmpfrm$gear==2 & tmpfrm$year>=start.year & tmpfrm$year<=end.year,]
+  #
+  # compute annual sum of main three species 
+  #  note: assumes there are no NAs in species columns
+  trop.tunas<-tmpfrm.ps$yft+tmpfrm.ps$skj+tmpfrm.ps$bet
+  total.unlds<-tapply(trop.tunas,tmpfrm.ps$year,sum)
+  
   assign(paste("total.unlds.",yr.start,yr.end,sep=""),total.unlds,pos=1)
   #
   # Get the CAE+IDM data
