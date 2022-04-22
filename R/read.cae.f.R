@@ -1,10 +1,10 @@
 #' xxx
 #' 
-#' \code{read.cae} yyy
+#' \code{read.cae.f} yyy
 #' 
 #' @export
 
-read.cae = function(dir,file,start.year,end.year) {
+read.cae.f = function(dir,file,start.year,end.year) {
   # reads in CAE+IDM data from Miscellaneous VB program: CAE data, which is under: Data dump files
   # afile is input file name; path is specified below in read.table call
   # keeps only PS data (BB is gear==1; PS is gear==2), and data from start.year to end.year
