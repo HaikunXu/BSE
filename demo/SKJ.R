@@ -29,13 +29,8 @@ lfmm <- read.lfmmdata.f(raw_data_dir,"LengthMM2000-2021.txt")
 # Get the grouped length-frequency output
 lfgrpd <- read.lengthfreq.f(raw_data_dir,"LengthFreq2000-2021.txt")
 
-# loop this
-for(year in yr.start:yr.start) {
-  print(paste0("Getting well estimates for year ",year))
-  well.estimates <- well.estimates.f(lfgrpd[lfgrpd$year.firstset==year,],lfmm)
-  assign(paste0("well.estimates.", year), well.estimates)
-  rm(well.estimates)
-}
+# get the well estiamtes for all years
+get.well.estimates.f(lfgrpd,lfmm,yr.start,yr.end)
 
 save.image("D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/SKJ/base files_2000-2021.RData")
 
@@ -44,7 +39,6 @@ cae.stratflg<-create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$s
 
 lfgrpd.stratflg<-create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class)
 
-# load growth increment matrix
-load()
+get.catch.estimates.f(cae,cae.stratflg,total.unlds,lfgrpd,lfgrpd.stratflg,lfmm,2000,2,well.estimates.2000,area.substitution.mat.SKJ.FLT.SAC2022,grow.increments.2cmSKJ.betyftskj)
 
-get.catch.estimates.V3.f(cae,cae.stratflg,total.unlds,lfgrpd,lfgrpd.stratflg,lfmm,2000,2,well.estimates.2000,area.substitution.mat.SKJ.FLT.SAC2022,grow.increments.2cmSKJ.betyftskj)
+fishery.estimates.2000<-fishery.estimates.f(stratum.estimates.2000.withsamps,stratum.estimates.2000.NOsamps,2000)
