@@ -4,7 +4,16 @@
 \alias{create.strat.flg.f}
 \title{xxx}
 \usage{
-create.strat.flg.f(lat.5deg, lon.5deg, is.lwrght, month, setype, vessel.class)
+create.strat.flg.f(
+  lat.5deg,
+  lon.5deg,
+  is.lwrght,
+  month,
+  setype,
+  vessel.class,
+  PS,
+  Species
+)
 }
 \description{
 \code{create.strat.flg.f} yyy

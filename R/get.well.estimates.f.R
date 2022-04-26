@@ -11,5 +11,4 @@ get.well.estimates.f = function(lfgrpd,lfmm,yr.start,yr.end) {
     assign(paste0("well.estimates.", year), well.estimates,pos=1)
     rm(well.estimates)
   }
-  return()
 }

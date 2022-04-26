@@ -4,7 +4,7 @@
 #' 
 #' @export
 
-fishery.estimates.f = function(strat.ests.withsamps,strat.ests.nosamps,iyear)
+fishery.estimates.f = function(strat.ests.withsamps,strat.ests.nosamps,iyear,PS,Species)
 {
   # creates stock assessment estimates of total species catch (mt) and species size comps (wt-avg proportion fish)
   #   within stock assessments fisheries (quarter x areas x gears)
@@ -23,7 +23,7 @@ fishery.estimates.f = function(strat.ests.withsamps,strat.ests.nosamps,iyear)
   # Estimates from strata WITH sample data
   #
   # get fishery id information (id vector; unique id vector; number unique ids)
-  fishery.samps.defns<-create.fishery.flg.f(strat.ests.withsamps$strats)
+  fishery.samps.defns<-create.fishery.flg.f(strat.ests.withsamps$strats,PS,Species)
   fishery.samps.id<-paste(fishery.samps.defns$fishery.areagear,fishery.samps.defns$fishery.quarter,sep=":")
   fishery.samps.id.unq<-unique(fishery.samps.id)
   n.fshry.samps<-length(fishery.samps.id.unq)
@@ -86,7 +86,7 @@ fishery.estimates.f = function(strat.ests.withsamps,strat.ests.nosamps,iyear)
   # Estimates from strata WITHOUT sample data (species catch only)
   #
   # get fishery id information (id vector; unique id vector; number unique ids)
-  fishery.NOsamps.defns<-create.fishery.flg.f(strat.ests.nosamps$strats)
+  fishery.NOsamps.defns<-create.fishery.flg.f(strat.ests.nosamps$strats,PS,Species)
   fishery.NOsamps.id<-paste(fishery.NOsamps.defns$fishery.areagear,fishery.NOsamps.defns$fishery.quarter,sep=":")
   fishery.NOsamps.id.unq<-unique(fishery.NOsamps.id)
   n.fshry.NOsamps<-length(fishery.NOsamps.id.unq)

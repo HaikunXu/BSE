@@ -15,7 +15,9 @@ get.catch.estimates.f(
   minsamps.in,
   well.estimates,
   myarea.submat,
-  growshrink.incrs.mat.touse
+  growshrink.incrs.mat.touse,
+  PS,
+  Species
 )
 }
 \description{

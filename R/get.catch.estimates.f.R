@@ -4,7 +4,7 @@
 #' 
 #' @export
 
-get.catch.estimates.f = function(cae.in,caestrtflg.in,totunlds.in,lfgrpd.in,lfgrpd.stratflg.in,lfmm.in,my.year,minsamps.in,well.estimates,myarea.submat,growshrink.incrs.mat.touse) {
+get.catch.estimates.f = function(cae.in,caestrtflg.in,totunlds.in,lfgrpd.in,lfgrpd.stratflg.in,lfmm.in,my.year,minsamps.in,well.estimates,myarea.submat,growshrink.incrs.mat.touse,PS,Species) {
   # spp comp P-S
   #
   # runs functions that compute catch estimates for one year: my.year
@@ -21,7 +21,7 @@ get.catch.estimates.f = function(cae.in,caestrtflg.in,totunlds.in,lfgrpd.in,lfgr
   # assign(paste("well.estimates.",my.year,sep=""),well.estimates,pos=1)
   #
   # Create a catch stratum id variable for the well-level estimate output
-  well.stratflg<-create.strat.flg.f(well.estimates$ancillary.info$lat.5deg,well.estimates$ancillary.info$lon.5deg,is.lwrght=T,well.estimates$ancillary.info$month,well.estimates$ancillary.info$setype,well.estimates$ancillary.info$class)
+  well.stratflg<-create.strat.flg.f(well.estimates$ancillary.info$lat.5deg,well.estimates$ancillary.info$lon.5deg,is.lwrght=T,well.estimates$ancillary.info$month,well.estimates$ancillary.info$setype,well.estimates$ancillary.info$class,PS,Species)
   assign(paste("well.stratflg.",my.year,sep=""),well.stratflg,pos=1)
   #
   # Get stratum-level estimates for catch strata that have sufficient sample data
@@ -35,7 +35,7 @@ get.catch.estimates.f = function(cae.in,caestrtflg.in,totunlds.in,lfgrpd.in,lfgr
   #
   # before running substitute.f also need to get the fishery.area for the unloads strata with no/inadequate sample data
   #     this is really awkward and should be improved.... ;-(  
-  tmpcl<-create.fishery.flg.f(totunlds.bystrat$str.defns)
+  tmpcl<-create.fishery.flg.f(totunlds.bystrat$str.defns,PS,Species)
   tmp.unlds.stratdefns.miss<-data.frame(totunlds.bystrat$str.defns,tmpcl)[,c(1:3,5)][is.na(stratum.estimates.withsamps$unloads.vs.wells),]
   tmp.unlds.stratdefns.miss$fishery.areagear<-as.character(tmp.unlds.stratdefns.miss$fishery.areagear)
   rm(tmpcl)

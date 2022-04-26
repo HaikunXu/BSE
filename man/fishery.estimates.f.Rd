@@ -4,7 +4,13 @@
 \alias{fishery.estimates.f}
 \title{xxx}
 \usage{
-fishery.estimates.f(strat.ests.withsamps, strat.ests.nosamps, iyear)
+fishery.estimates.f(
+  strat.ests.withsamps,
+  strat.ests.nosamps,
+  iyear,
+  PS,
+  Species
+)
 }
 \description{
 \code{fishery.estimates.f} yyy
