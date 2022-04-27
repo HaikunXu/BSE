@@ -1,10 +1,10 @@
 #' xxx
 #' 
-#' \code{format.catch.output.f} yyy
+#' \code{compile.catch.output.f} yyy
 #' 
 #' @export
 
-format.catch.output.f = function(yr.start,yr.end,afishery,spp.col,fisheryareas) {
+compile.catch.output.f = function(yr.start,yr.end,PS,Species,fisheryareas) {
   # for PS spp comp estimates
   # this funciton loads all the CATCH into one data frame
   # yr.start and yr.end are start and end years
@@ -14,6 +14,14 @@ format.catch.output.f = function(yr.start,yr.end,afishery,spp.col,fisheryareas) 
   # edited October 19 2018 to switch order of trimming 0 rows from output and converting output to data frame
   # edited March 2020 to only do loop over years at end if there is more than one year
   #
+  if(Species=="BET") spp.col <- 3
+  if(Species=="YFT") spp.col <- 4
+  if(Species=="SKJ") spp.col <- 5
+  
+  if(PS=="OBJ") afishery <- "FO"
+  if(PS=="NOA") afishery <- "UN"
+  if(PS=="DEL") afishery <- "DP"
+  
   # get first year catch estimates (and ancillary info) for species of interest
   catch<-get(paste("fishery.estimates.",yr.start,sep=""))$total.catch.byspp[,c(1:2,spp.col)]
   # subset for fishery (set type) of interest

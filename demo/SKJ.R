@@ -37,7 +37,6 @@ lfgrpd <- read.lengthfreq.f(raw_data_dir,"LengthFreq2000-2021.txt")
 
 # get the well estimates for all years
 get.well.estimates.f(lfgrpd,lfmm,yr.start,yr.end)
-
 save.image(paste0(save_dir,"base files_2000-2021.RData"))
 
 # Running SKJ OBJ
@@ -65,6 +64,5 @@ save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"SKJ_OBJ_2000-20
 
 # get final catch and comp output for the stock assessment
 
-skj.FOcatch.20002021<-format.catch.output.f(2000,2021,"FO",5,c("A1","A2","A3","A4"))
-
-skj.FOcomps.20002021<-format.sizecomps.output.f(2000,2021,"FO",3)
+SKJ.OBJ.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS="OBJ",Species="SKJ",c("A1","A2","A3","A4"))
+SKJ.OBJ.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS="OBJ",Species="SKJ")

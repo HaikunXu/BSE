@@ -1,10 +1,10 @@
 #' xxx
 #' 
-#' \code{format.sizecomps.output.f} yyy
+#' \code{compile.sizecomps.output.f} yyy
 #' 
 #' @export
 
-format.sizecomps.output.f = function(yr.start,yr.end,afishery,spp.col) {
+compile.sizecomps.output.f = function(yr.start,yr.end,PS,Species) {
   # for PS spp comp estimates
   # this funciton loads all the SIZE COMPS into one data frame
   # yr.start and yr.end are start and end years
@@ -12,6 +12,14 @@ format.sizecomps.output.f = function(yr.start,yr.end,afishery,spp.col) {
   # spp.col is the column number of the species of interest in phatik.byfshry.samps of fishery.estimates.yyyy
   # edited March 2020 to only do loop over years at the end if there is more than one year
   #
+  if(Species=="BET") spp.col <- 1
+  if(Species=="YFT") spp.col <- 2
+  if(Species=="SKJ") spp.col <- 3
+  
+  if(PS=="OBJ") afishery <- "FO"
+  if(PS=="NOA") afishery <- "UN"
+  if(PS=="DEL") afishery <- "DP"
+  
   # get first year ancillary info and size comps for species of interest
   fish.ests<-get(paste("fishery.estimates.",yr.start,sep=""))
   ancil<-fish.ests$fishery.defn.samps
