@@ -103,7 +103,6 @@ save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"SKJ_",PS,"_2000
 SKJ.DEL.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2"))
 SKJ.DEL.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 
-
 # save results
 write.csv(SKJ.OBJ.Catch.20002021,file=paste0(save_dir,"SKJ.OBJ.Catch.20002021.csv"),row.names = FALSE)
 write.csv(SKJ.OBJ.Comp.20002021,file=paste0(save_dir,"SKJ.OBJ.Comp.20002021.csv"),row.names = FALSE)
