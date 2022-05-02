@@ -22,7 +22,10 @@ PS <- "OBJ"
 area.substitution.mat <- area.substitution.mat.SKJ.FLT.SAC2022 # for OBJ
 
 cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
+check.strat.flg.f(cae$latc5,cae$lonc5,cae.stratflg)
+
 lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
+check.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,lfgrpd.stratflg)
 
 # Loop to get all years' fishery estimates
 for(year in yr.start:yr.end) {
