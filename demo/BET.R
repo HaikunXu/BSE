@@ -19,6 +19,7 @@ lfgrpd <- read.lengthfreq.f(raw_data_dir,"LengthFreq2000-2021.txt")
 
 # Running BET OBJ
 PS <- "OBJ"
+
 area.substitution.mat <- area.substitution.mat.BET.movemodel.ALL # for OBJ
 
 cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
