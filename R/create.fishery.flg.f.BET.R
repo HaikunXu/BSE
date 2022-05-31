@@ -9,7 +9,7 @@ create.fishery.flg.f.BET = function(strat.defns,PS)
 
   # number of records in input vectors
   nrecs<-nrow(strat.defns)
-  #print(nrecs)
+  print(nrecs)
   
   # compute quarter id vector
   quarter<-ceiling(strat.defns$month/3)
