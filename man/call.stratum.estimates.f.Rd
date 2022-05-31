@@ -8,7 +8,8 @@ call.stratum.estimates.f(
   unloads.bystrat,
   well.estimates,
   well.strats,
-  min.sampsize
+  min.sampsize,
+  Species
 )
 }
 \description{

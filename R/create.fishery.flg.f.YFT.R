@@ -1,10 +1,10 @@
 #' xxx
 #' 
-#' \code{create.fishery.flg.f.BET} yyy
+#' \code{create.fishery.flg.f.YFT} yyy
 #' 
 #' @export
 
-create.fishery.flg.f.BET = function(strat.defns,PS)
+create.fishery.flg.f.YFT = function(strat.defns,PS)
 {
 
   # number of records in input vectors
@@ -14,9 +14,9 @@ create.fishery.flg.f.BET = function(strat.defns,PS)
   # compute quarter id vector
   quarter<-ceiling(strat.defns$month/3)
   
-  # SKJ Mark SAC 2022 assessment
+  # YFT SAC 12 assessment
   
-  print("Using fishery stratification: Juan/Haikun BET spatial movement model 10S 10N")
+  print("Using fishery stratification: YFT SAC12")
   
   areagear<-rep(NA,nrecs)
   areagear[(strat.defns$gear==2 | strat.defns$gear==5) & strat.defns$area>=1 & strat.defns$area<=2]<-"FO.A1"
@@ -24,13 +24,13 @@ create.fishery.flg.f.BET = function(strat.defns,PS)
   areagear[(strat.defns$gear==2 | strat.defns$gear==5) & strat.defns$area==5]<-"FO.A3"
   areagear[(strat.defns$gear==2 | strat.defns$gear==5) & strat.defns$area==6]<-"FO.A4"
   areagear[(strat.defns$gear==2 | strat.defns$gear==5) & strat.defns$area==7]<-"FO.A5"
-
+  
   areagear[(strat.defns$gear==3 | strat.defns$gear==6) & strat.defns$area>=1 & strat.defns$area<=2]<-"UN.A1"
   areagear[(strat.defns$gear==3 | strat.defns$gear==6) & strat.defns$area>=3 & strat.defns$area<=4]<-"UN.A2"
   areagear[(strat.defns$gear==3 | strat.defns$gear==6) & strat.defns$area==5]<-"UN.A3"
   areagear[(strat.defns$gear==3 | strat.defns$gear==6) & strat.defns$area==6]<-"UN.A4"
   areagear[(strat.defns$gear==3 | strat.defns$gear==6) & strat.defns$area==7]<-"UN.A5"
-
+  
   areagear[(strat.defns$gear==4 | strat.defns$gear==7) & strat.defns$area>=1 & strat.defns$area<=2]<-"DP.A1"
   areagear[(strat.defns$gear==4 | strat.defns$gear==7) & strat.defns$area>=3 & strat.defns$area<=4]<-"DP.A2"
   areagear[(strat.defns$gear==4 | strat.defns$gear==7) & strat.defns$area==5]<-"DP.A3"
