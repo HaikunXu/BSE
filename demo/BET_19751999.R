@@ -30,7 +30,7 @@ for(year in yr.start:yr.end) {
   
   print("Step 3: get fishery estimates")
   # str(catch.estimates$stratum.estimates.withsamps)
-  fishery.estimates <- call.fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$totunlds.bystrat,year,PS)
+  fishery.estimates <- call.fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$totunlds.bystrat,year,PS,Species)
   
   fishery.estimates.bet <- fishery.estimates$bet
   
@@ -62,7 +62,7 @@ for(year in yr.start:yr.end) {
   
   print("Step 3: get fishery estimates")
   # str(catch.estimates$stratum.estimates.withsamps)
-  fishery.estimates <- call.fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$totunlds.bystrat,year,PS)
+  fishery.estimates <- call.fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$totunlds.bystrat,year,PS,Species)
   
   fishery.estimates.bet <- fishery.estimates$bet
   
@@ -94,7 +94,7 @@ for(year in yr.start:yr.end) {
   
   print("Step 3: get fishery estimates")
   # str(catch.estimates$stratum.estimates.withsamps)
-  fishery.estimates <- call.fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$totunlds.bystrat,year,PS)
+  fishery.estimates <- call.fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$totunlds.bystrat,year,PS,Species)
   
   fishery.estimates.bet <- fishery.estimates$bet
   

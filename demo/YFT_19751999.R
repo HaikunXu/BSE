@@ -25,7 +25,7 @@ for(year in yr.start:yr.end) {
   well.estimates <- well.estimates.7599.f(year)
   
   print("Step 2: get catch estimates")
-  catch.estimates <- get.catch.estimates.7599.f(cae,cae.stratflg,corrected.unlds,lfgrpd,lfmm,year,2,well.estimates,PS)
+  catch.estimates <- get.catch.estimates.7599.f(cae,cae.stratflg,corrected.unlds,lfgrpd,lfmm,year,2,well.estimates,PS,Species)
 
   print("Step 3: get fishery estimates")
   # str(catch.estimates$stratum.estimates.withsamps)
