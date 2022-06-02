@@ -2,16 +2,14 @@
 title: "SKJ SAC13 (2000-2021)"
 author: "Haikun Xu"
 date: "`r Sys.Date()`"
-output:
-  html_document:
-    df_print: paged
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(results = FALSE)
 ```
 
-This example code demonstrates how to compile the purse-seine catch and length composition data for the stock assessment of skipjack tuna in the eastern Pacific Ocean. Data are extracted for skipjack between 2000 and 2021 based on the R package *BSE* (version `packageVersion("BSE")`). The package can be installed using `devtools::install_github('HaikunXu/BSE',ref='main')`. Fishery definition for this data extraction is based on the interim assessment conducted in 2022.
+This example code demonstrates how to compile the purse-seine catch and length composition data for the stock assessment of skipjack tuna in the eastern Pacific Ocean. Data are extracted for skipjack between 2000 and 2021 based on the R package *BSE*. The package can be installed using `devtools::install_github('HaikunXu/BSE',ref='main')`. Fishery definition for this data extraction is based on the interim assessment conducted in 2022.
 
 -   Step 1: set up some directories and parameters for the extraction
 
@@ -42,21 +40,149 @@ lfmm <- read.lfmmdata.f(raw_data_dir,"LengthMM2000-2021.txt")
 lfgrpd <- read.lengthfreq.f(raw_data_dir,"LengthFreq2000-2021.txt")
 ```
 
--   Step 3: Compile the OBJ catch and composition data for SKJ
+-   Step 3: compile the OBJ catch and composition data for SKJ
 
 ```{r OBJ}
 PS <- "OBJ"
 area.substitution.mat <- area.substitution.mat.SKJ.FLT.SAC2022 # for OBJ
 
 cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
-
 lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
 
 ```
 
 Check the strata definition for OBJ in both cae and lf data sets to make sure that they are correct
 
-```{r check strata definition}
+```{r}
 check.strat.flg.f(cae$latc5,cae$lonc5,cae.stratflg)
 check.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,lfgrpd.stratflg)
+```
+
+Loop through every year between `yr.start` and `yr.end` to get catch and composition data for SKJ in the OBJ fishery
+
+```{r}
+for(year in yr.start:yr.end) {
+  # print(paste0("Year: ",year))
+  
+  # print("Step 1: get well estimates")
+  well.estimates <- well.estimates.f(lfgrpd[lfgrpd$year.firstset==year,],lfmm)
+  
+  # print("Step 2: get catch estimates")
+  catch.estimates <- get.catch.estimates.f(cae,cae.stratflg,total.unlds,lfgrpd,lfgrpd.stratflg,lfmm,year,2,well.estimates,area.substitution.mat,grow.increments,PS=PS,Species=Species)
+  
+  # print("Step 3: get fishery estimates")
+  fishery.estimates <- fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$stratum.estimates.NOsamps,year,PS=PS,Species=Species)
+  
+  assign(paste0("fishery.estimates.", year), fishery.estimates, pos=1)
+}
+# save middle-step data as a record
+save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"SKJ_",PS,"_2000-2021.RData"))
+```
+
+Get final OBJ catch and comp output for the stock assessment
+
+```{r}
+SKJ.OBJ.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4")) # four OBJ fisheries
+SKJ.OBJ.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
+```
+
+-   Step 4: compile the NOA catch and composition data for SKJ
+
+```{r NOA}
+PS <- "NOA"
+area.substitution.mat <- area.substitution.mat.SKJ.UNA.SAC2022 # for NOA
+
+cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
+lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
+```
+
+Check the strata definition for NOA in both cae and lf data sets to make sure that they are correct
+
+```{r}
+check.strat.flg.f(cae$latc5,cae$lonc5,cae.stratflg)
+check.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,lfgrpd.stratflg)
+```
+
+Loop through every year between `yr.start` and `yr.end` to get catch and composition data for SKJ in the NOA fishery
+
+```{r}
+for(year in yr.start:yr.end) {
+  # print(paste0("Year: ",year))
+  
+  # print("Step 1: get well estimates")
+  well.estimates <- well.estimates.f(lfgrpd[lfgrpd$year.firstset==year,],lfmm)
+  
+  # print("Step 2: get catch estimates")
+  catch.estimates <- get.catch.estimates.f(cae,cae.stratflg,total.unlds,lfgrpd,lfgrpd.stratflg,lfmm,year,2,well.estimates,area.substitution.mat,grow.increments,PS=PS,Species=Species)
+  
+  # print("Step 3: get fishery estimates")
+  fishery.estimates <- fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$stratum.estimates.NOsamps,year,PS=PS,Species=Species)
+  
+  assign(paste0("fishery.estimates.", year), fishery.estimates, pos=1)
+}
+# save middle-step data as a record
+save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"SKJ_",PS,"_2000-2021.RData"))
+```
+
+Get final NOA catch and comp output for the stock assessment
+
+```{r}
+SKJ.NOA.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4"))  # four NOA fisheries
+SKJ.NOA.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
+```
+
+-   Step 5: compile the DEL catch and composition data for SKJ
+
+```{r DEL}
+PS <- "DEL"
+area.substitution.mat <- area.substitution.mat.SKJ.DEL.SAC2022 # for DEL
+
+cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
+lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
+```
+
+Check the strata definition for DEL in both cae and lf data sets to make sure that they are correct
+
+```{r}
+check.strat.flg.f(cae$latc5,cae$lonc5,cae.stratflg)
+check.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,lfgrpd.stratflg)
+```
+
+Loop through every year between `yr.start` and `yr.end` to get catch and composition data for SKJ in the NOA fishery
+
+```{r}
+for(year in yr.start:yr.end) {
+  # print(paste0("Year: ",year))
+  
+  # print("Step 1: get well estimates")
+  well.estimates <- well.estimates.f(lfgrpd[lfgrpd$year.firstset==year,],lfmm)
+  
+  # print("Step 2: get catch estimates")
+  catch.estimates <- get.catch.estimates.f(cae,cae.stratflg,total.unlds,lfgrpd,lfgrpd.stratflg,lfmm,year,2,well.estimates,area.substitution.mat,grow.increments,PS=PS,Species=Species)
+  
+  # print("Step 3: get fishery estimates")
+  fishery.estimates <- fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$stratum.estimates.NOsamps,year,PS=PS,Species=Species)
+  
+  assign(paste0("fishery.estimates.", year), fishery.estimates, pos=1)
+}
+# save middle-step data as a record
+save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"SKJ_",PS,"_2000-2021.RData"))
+```
+
+Get final DEL catch and comp output for the stock assessment
+
+```{r}
+SKJ.DEL.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2")) # two DEL fisheries
+SKJ.DEL.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
+```
+
+-   Step 6: save all results for SKJ as csv files
+
+```{r save results}
+write.csv(SKJ.OBJ.Catch.20002021,file=paste0(save_dir,"SKJ.OBJ.Catch.20002021.csv"),row.names = FALSE)
+write.csv(SKJ.OBJ.Comp.20002021,file=paste0(save_dir,"SKJ.OBJ.Comp.20002021.csv"),row.names = FALSE)
+write.csv(SKJ.NOA.Catch.20002021,file=paste0(save_dir,"SKJ.NOA.Catch.20002021.csv"),row.names = FALSE)
+write.csv(SKJ.NOA.Comp.20002021,file=paste0(save_dir,"SKJ.NOA.Comp.20002021.csv"),row.names = FALSE)
+write.csv(SKJ.DEL.Catch.20002021,file=paste0(save_dir,"SKJ.DEL.Catch.20002021.csv"),row.names = FALSE)
+write.csv(SKJ.DEL.Comp.20002021,file=paste0(save_dir,"SKJ.DEL.Comp.20002021.csv"),row.names = FALSE)
 ```
