@@ -1,5 +1,5 @@
 ---
-title: "BET PS data for Stock Synthesis"
+title: "SKJ PS data for Stock Synthesis"
 author: "Haikun Xu"
 date: "`r Sys.Date()`"
 output:
@@ -15,98 +15,98 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```{r load catch data}
 
 library(tidyverse)
-save_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/BET/"
+save_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/SKJ/"
 yr.end <- 2021
 
-BET.OBJ.Catch.20002021 <- read.csv(paste0(save_dir,"BET.OBJ.Catch.20002021.csv"))
-BET.OBJ.Catch.19751999 <- read.csv(paste0(save_dir,"BET.OBJ.Catch.19751999.csv"))
+SKJ.OBJ.Catch.20002021 <- read.csv(paste0(save_dir,"SKJ.OBJ.Catch.20002021.csv"))
 
-BET.NOA.Catch.20002021 <- read.csv(paste0(save_dir,"BET.NOA.Catch.20002021.csv"))
-BET.NOA.Catch.19751999 <- read.csv(paste0(save_dir,"BET.NOA.Catch.19751999.csv"))
+SKJ.NOA.Catch.20002021 <- read.csv(paste0(save_dir,"SKJ.NOA.Catch.20002021.csv"))
 
-BET.DEL.Catch.20002021 <- read.csv(paste0(save_dir,"BET.DEL.Catch.20002021.csv"))
-BET.DEL.Catch.19751999 <- read.csv(paste0(save_dir,"BET.DEL.Catch.19751999.csv"))
+SKJ.DEL.Catch.20002021 <- read.csv(paste0(save_dir,"SKJ.DEL.Catch.20002021.csv"))
 ```
 
 ```{r process catch data}
-Year_all <- data.frame(Year = seq(1,(yr.end-1974)*4),
-                       Area = rep(c("A1","A2","A3","A4","A5"), each = (yr.end-1974)*4))
+Year_OBJ <- data.frame(Year = seq(101,(yr.end-1974)*4),
+                       Area = rep(c("A1","A2","A3","A4"), each = (yr.end-1999)*4))
 
-BET_OBJ_Catch <- rbind(BET.OBJ.Catch.19751999,BET.OBJ.Catch.20002021) %>% 
+SKJ_OBJ_Catch <- SKJ.OBJ.Catch.20002021 %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
-  gather(3:7,key="Area",value="Catch") %>% 
+  gather(3:6,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
-BET_OBJ_Catch <- left_join(Year_all,BET_OBJ_Catch) %>%
+SKJ_OBJ_Catch <- left_join(Year_OBJ,SKJ_OBJ_Catch) %>%
   mutate(Catch=ifelse(is.na(Catch),0,Catch),
          Type="OBJ")
 
-BET_NOA_Catch <- rbind(BET.NOA.Catch.19751999,BET.NOA.Catch.20002021) %>% 
+Year_NOA <- data.frame(Year = seq(101,(yr.end-1974)*4),
+                       Area = rep(c("A1","A2","A3","A4"), each = (yr.end-1999)*4))
+SKJ_NOA_Catch <- SKJ.NOA.Catch.20002021 %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
-  gather(3:7,key="Area",value="Catch") %>% 
+  gather(3:6,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
-BET_NOA_Catch <- left_join(Year_all,BET_NOA_Catch) %>%
+SKJ_NOA_Catch <- left_join(Year_NOA,SKJ_NOA_Catch) %>%
   mutate(Catch=ifelse(is.na(Catch),0,Catch),
          Type="NOA")
 
-BET_DEL_Catch <- rbind(BET.DEL.Catch.19751999,BET.DEL.Catch.20002021) %>% 
+Year_DEL <- data.frame(Year = seq(101,(yr.end-1974)*4),
+                       Area = rep(c("A1","A2"), each = (yr.end-1999)*4))
+SKJ_DEL_Catch <- SKJ.DEL.Catch.20002021 %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
-  gather(3:7,key="Area",value="Catch") %>% 
+  gather(3:4,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
-BET_DEL_Catch <- left_join(Year_all,BET_DEL_Catch) %>%
+SKJ_DEL_Catch <- left_join(Year_DEL,SKJ_DEL_Catch) %>%
   mutate(Catch=ifelse(is.na(Catch),0,Catch),
          Type="DEL")
 
-BET_NOA_Catch$Catch <- BET_NOA_Catch$Catch + BET_DEL_Catch$Catch
-
-BET_PS_Catch <- rbind(BET_OBJ_Catch,BET_NOA_Catch)
-write.csv(BET_PS_Catch,file=paste0(save_dir,"BET_PS_Catch_1975-",yr.end,".csv"),row.names = FALSE)
+SKJ_PS_Catch <- rbind(SKJ_OBJ_Catch,SKJ_NOA_Catch,SKJ_DEL_Catch)
+write.csv(SKJ_PS_Catch,file=paste0(save_dir,"SKJ_PS_Catch_1975-",yr.end,".csv"),row.names = FALSE)
 ```
 
 ```{r plot catch data}
-ggplot(data=BET_PS_Catch) +
-  geom_line(aes(x=Year,y=Catch,color=Type)) +
-  facet_wrap(~Area,nrow=5,scales = "free") +
-  geom_vline(xintercept = 100.5,linetype = "dashed") +
+ggplot(data=SKJ_PS_Catch) +
+  geom_line(aes(x=Year,y=Catch,color=Area)) +
+  facet_wrap(~Type,nrow=4,scales = "free") +
   theme_bw(16)
 ```
 
 ```{r load comp data}
-BET.OBJ.Comp.20002021 <- read.csv(paste0(save_dir,"BET.OBJ.Comp.20002021.csv"))
-BET.OBJ.Comp.19751999 <- read.csv(paste0(save_dir,"BET.OBJ.Comp.19751999.csv"))
+SKJ.OBJ.Comp.20002021 <- read.csv(paste0(save_dir,"SKJ.OBJ.Comp.20002021.csv"))
 
-BET.NOA.Comp.20002021 <- read.csv(paste0(save_dir,"BET.NOA.Comp.20002021.csv"))
-BET.NOA.Comp.19751999 <- read.csv(paste0(save_dir,"BET.NOA.Comp.19751999.csv"))
+SKJ.NOA.Comp.20002021 <- read.csv(paste0(save_dir,"SKJ.NOA.Comp.20002021.csv"))
 
-# BET.DEL.Comp.20002021 <- read.csv(paste0(save_dir,"BET.DEL.Comp.20002021.csv"))
-# BET.DEL.Comp.19751999 <- read.csv(paste0(save_dir,"BET.DEL.Comp.19751999.csv"))
+SKJ.DEL.Comp.20002021 <- read.csv(paste0(save_dir,"SKJ.DEL.Comp.20002021.csv"))
 ```
 
 ```{r porcess comp data}
-BET_OBJ_Comp <- rbind(BET.OBJ.Comp.19751999,BET.OBJ.Comp.20002021) %>%
+SKJ_OBJ_Comp <- SKJ.OBJ.Comp.20002021 %>%
     mutate(Year=(year-1975)*4+quarter, Type="OBJ") %>%
   arrange(area,Year)
-BET_OBJ_Comp <- BET_OBJ_Comp[c(207,206,3:205)]
+SKJ_OBJ_Comp <- SKJ_OBJ_Comp[c(207,206,3:205)]
 
-BET_NOA_Comp <- rbind(BET.NOA.Comp.19751999,BET.NOA.Comp.20002021) %>%
+SKJ_NOA_Comp <- SKJ.NOA.Comp.20002021 %>%
     mutate(Year=(year-1975)*4+quarter, Type="NOA") %>%
   arrange(area,Year)
-BET_NOA_Comp <- BET_NOA_Comp[c(207,206,3:205)]
+SKJ_NOA_Comp <- SKJ_NOA_Comp[c(207,206,3:205)]
 
-BET_PS_Comp <- rbind(BET_OBJ_Comp,BET_NOA_Comp)
-write.csv(BET_PS_Comp,file=paste0(save_dir,"BET_PS_Comp_1975-",yr.end,".csv"),row.names = FALSE)
+SKJ_DEL_Comp <- SKJ.DEL.Comp.20002021 %>%
+    mutate(Year=(year-1975)*4+quarter, Type="DEL") %>%
+  arrange(area,Year)
+SKJ_DEL_Comp <- SKJ_DEL_Comp[c(207,206,3:205)]
+
+SKJ_PS_Comp <- rbind(SKJ_OBJ_Comp,SKJ_NOA_Comp,SKJ_DEL_Comp)
+write.csv(SKJ_PS_Comp,file=paste0(save_dir,"SKJ_PS_Comp_1975-",yr.end,".csv"),row.names = FALSE)
 ```
 
 ```{r plot comp data}
-names(BET_PS_Comp)[5:205] <- 1:201
-BET_PS_Comp_mean <- BET_PS_Comp %>%
+names(SKJ_PS_Comp)[5:205] <- 1:201
+SKJ_PS_Comp_mean <- SKJ_PS_Comp %>%
   gather(5:205,key="Length",value=comp) %>%
   group_by(Type,area,Length) %>%
   summarise(Comp=sum(comp*nwells)) %>%
   group_by(Type,area) %>%
   mutate(Length=as.numeric(Length),Comp=Comp/sum(Comp))
 
-ggplot(data=BET_PS_Comp_mean) +
-  geom_line(aes(x=Length,y=Comp,color=Type)) +
-  facet_wrap(~area,nrow = 3) +
+ggplot(data=SKJ_PS_Comp_mean) +
+  geom_line(aes(x=Length,y=Comp,color=area)) +
+  facet_wrap(~Type,nrow = 3) +
   theme_bw(16)
 ```
