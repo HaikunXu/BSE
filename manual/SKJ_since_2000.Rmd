@@ -48,7 +48,6 @@ area.substitution.mat <- area.substitution.mat.SKJ.FLT.SAC2022 # for OBJ
 
 cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
 lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
-
 ```
 
 Check the strata definition for OBJ in both cae and lf data sets to make sure that they are correct
