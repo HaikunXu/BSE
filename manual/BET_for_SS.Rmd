@@ -12,6 +12,8 @@ output:
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
 
+This example code demonstrates how to compile the purse-seine catch and length composition data for the stock assessment of bigeye tuna in the eastern Pacific Ocean.
+
 ```{r load catch data}
 
 library(tidyverse)

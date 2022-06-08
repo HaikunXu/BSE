@@ -1,5 +1,5 @@
 ---
-title: "BET (2000-2021)"
+title: "PS data extraction for BET (2000-2021)"
 author: "Haikun Xu"
 date: "`r Sys.Date()`"
 output: html_document
@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(results = FALSE)
 ```
 
-This example code demonstrates how to compile the purse-seine catch and length composition data for the stock assessment of bigeye tuna in the eastern Pacific Ocean. Data are extracted for bigeye between 2000 and 2021 based on the R package *BSE*. The package can be installed using `devtools::install_github('HaikunXu/BSE',ref='main')`. Fishery definition for this data extraction is based on the benchmark assessment conducted in 2020.
+This example code demonstrates how to extract the purse-seine catch and length composition data for the stock assessment of bigeye tuna in the eastern Pacific Ocean. Data are extracted for bigeye between 2000 and 2021 based on the R package *BSE* (version `r packageVersion("BSE")`). The package can be installed using `devtools::install_github('HaikunXu/BSE',ref='main')`. Fishery definition for this data extraction is based on the benchmark assessment conducted in 2020.
 
 -   Step 1: set up some directories and parameters for the extraction
 
@@ -17,10 +17,10 @@ This example code demonstrates how to compile the purse-seine catch and length c
 # devtools::install_github('HaikunXu/BSE',ref='main') 
 library(BSE)
 
+# Load the base files (please ask Haikun to get those data)
 raw_data_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/spp comp programs_from 2000/Raw data extractions/"
-# the directory where raw extracted data from the IATTC database are stored; please ask Haikun to get those data
-save_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/BET/"
 # the directory where output will be saved
+save_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/BET/"
 yr.start <- 2000
 yr.end <- 2021
 Species <- "BET"
@@ -133,7 +133,7 @@ save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"BET_",PS,"_2000
 Get final NOA catch and comp output for the stock assessment
 
 ```{r}
-BET.NOA.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5"))  # four NOA fisheries
+BET.NOA.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5"))  # five NOA fisheries
 BET.NOA.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 
@@ -177,7 +177,7 @@ save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"BET_",PS,"_2000
 Get final DEL catch and comp output for the stock assessment
 
 ```{r}
-BET.DEL.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5")) # two DEL fisheries
+BET.DEL.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5")) # tive DEL fisheries
 BET.DEL.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 

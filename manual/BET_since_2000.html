@@ -11,9 +11,9 @@
 
 <meta name="author" content="Haikun Xu" />
 
-<meta name="date" content="2022-06-03" />
+<meta name="date" content="2022-06-08" />
 
-<title>BET (2000-2021)</title>
+<title>PS data extraction for BET (2000-2021)</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -359,18 +359,18 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">BET (2000-2021)</h1>
+<h1 class="title toc-ignore">PS data extraction for BET (2000-2021)</h1>
 <h4 class="author">Haikun Xu</h4>
-<h4 class="date">2022-06-03</h4>
+<h4 class="date">2022-06-08</h4>
 
 </div>
 
 
-<p>This example code demonstrates how to compile the purse-seine catch
+<p>This example code demonstrates how to extract the purse-seine catch
 and length composition data for the stock assessment of bigeye tuna in
 the eastern Pacific Ocean. Data are extracted for bigeye between 2000
-and 2021 based on the R package <em>BSE</em>. The package can be
-installed using
+and 2021 based on the R package <em>BSE</em> (version 0.1.0). The
+package can be installed using
 <code>devtools::install_github(&#39;HaikunXu/BSE&#39;,ref=&#39;main&#39;)</code>.
 Fishery definition for this data extraction is based on the benchmark
 assessment conducted in 2020.</p>
@@ -381,10 +381,10 @@ extraction</li>
 <pre class="r"><code># devtools::install_github(&#39;HaikunXu/BSE&#39;,ref=&#39;main&#39;) 
 library(BSE)
 
+# Load the base files (please ask Haikun to get those data)
 raw_data_dir &lt;- &quot;D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/spp comp programs_from 2000/Raw data extractions/&quot;
-# the directory where raw extracted data from the IATTC database are stored; please ask Haikun to get those data
-save_dir &lt;- &quot;D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/BET/&quot;
 # the directory where output will be saved
+save_dir &lt;- &quot;D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/BET/&quot;
 yr.start &lt;- 2000
 yr.end &lt;- 2021
 Species &lt;- &quot;BET&quot;
@@ -477,7 +477,7 @@ fishery</p>
 # save middle-step data as a record
 save(list=objects(pat=&quot;fishery.estimates&quot;),file=paste0(save_dir,&quot;BET_&quot;,PS,&quot;_2000-2021.RData&quot;))</code></pre>
 <p>Get final NOA catch and comp output for the stock assessment</p>
-<pre class="r"><code>BET.NOA.Catch.20002021&lt;-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c(&quot;A1&quot;,&quot;A2&quot;,&quot;A3&quot;,&quot;A4&quot;,&quot;A5&quot;))  # four NOA fisheries
+<pre class="r"><code>BET.NOA.Catch.20002021&lt;-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c(&quot;A1&quot;,&quot;A2&quot;,&quot;A3&quot;,&quot;A4&quot;,&quot;A5&quot;))  # five NOA fisheries
 BET.NOA.Comp.20002021&lt;-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)</code></pre>
 <ul>
 <li>Step 5: compile the DEL catch and composition data for BET</li>
@@ -512,7 +512,7 @@ fishery</p>
 # save middle-step data as a record
 save(list=objects(pat=&quot;fishery.estimates&quot;),file=paste0(save_dir,&quot;BET_&quot;,PS,&quot;_2000-2021.RData&quot;))</code></pre>
 <p>Get final DEL catch and comp output for the stock assessment</p>
-<pre class="r"><code>BET.DEL.Catch.20002021&lt;-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c(&quot;A1&quot;,&quot;A2&quot;,&quot;A3&quot;,&quot;A4&quot;,&quot;A5&quot;)) # two DEL fisheries
+<pre class="r"><code>BET.DEL.Catch.20002021&lt;-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c(&quot;A1&quot;,&quot;A2&quot;,&quot;A3&quot;,&quot;A4&quot;,&quot;A5&quot;)) # tive DEL fisheries
 BET.DEL.Comp.20002021&lt;-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)</code></pre>
 <ul>
 <li>Step 6: save all results for BET as csv files</li>

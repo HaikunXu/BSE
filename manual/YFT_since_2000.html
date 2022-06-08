@@ -11,9 +11,9 @@
 
 <meta name="author" content="Haikun Xu" />
 
-<meta name="date" content="2022-06-03" />
+<meta name="date" content="2022-06-08" />
 
-<title>YFT (2000-2021)</title>
+<title>PS data extraction for YFT (2000-2021)</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -359,18 +359,18 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">YFT (2000-2021)</h1>
+<h1 class="title toc-ignore">PS data extraction for YFT (2000-2021)</h1>
 <h4 class="author">Haikun Xu</h4>
-<h4 class="date">2022-06-03</h4>
+<h4 class="date">2022-06-08</h4>
 
 </div>
 
 
-<p>This example code demonstrates how to compile the purse-seine catch
+<p>This example code demonstrates how to extract the purse-seine catch
 and length composition data for the stock assessment of yellowfin tuna
 in the eastern Pacific Ocean. Data are extracted for yellowfin between
-2000 and 2021 based on the R package <em>BSE</em>. The package can be
-installed using
+2000 and 2021 based on the R package <em>BSE</em> (version 0.1.0). The
+package can be installed using
 <code>devtools::install_github(&#39;HaikunXu/BSE&#39;,ref=&#39;main&#39;)</code>.
 Fishery definition for this data extraction is based on the benchmark
 assessment conducted in 2020.</p>
@@ -381,10 +381,10 @@ extraction</li>
 <pre class="r"><code># devtools::install_github(&#39;HaikunXu/BSE&#39;,ref=&#39;main&#39;) 
 library(BSE)
 
+# Load the base files (please ask Haikun to get those data)
 raw_data_dir &lt;- &quot;D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/spp comp programs_from 2000/Raw data extractions/&quot;
-# the directory where raw extracted data from the IATTC database are stored; please ask Haikun to get those data
-save_dir &lt;- &quot;D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/YFT/&quot;
 # the directory where output will be saved
+save_dir &lt;- &quot;D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/YFT/&quot;
 yr.start &lt;- 2000
 yr.end &lt;- 2021
 Species &lt;- &quot;YFT&quot;

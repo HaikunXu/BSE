@@ -12,7 +12,7 @@ How to use this package to extract PS data for the stock assessments of tropical
 
     devtools::install_github('HaikunXu/BSE',ref='main')
 
-3.  If any fishery definition for the three tropical tunas is changed, modify the species-specific fishery definition function and area substitution matrices. A description of how to change the code for new fishery definition can be found [here](https://github.com/HaikunXu/BSE/blob/main/manual/New_Fishery_Definition.txt)
+3.  If any fishery definition for the three tropical tunas is changed, modify the species-specific fishery definition function and area substitution matrices. A description of how to change the code for new fishery definition can be found [here](https://github.com/HaikunXu/BSE/blob/main/manual/New_Fishery_Definition.txt). Please contact Haikun Xu (hkxu\@iattc.org) if you need help to update the fishery definition in this package's functions for your assessment.
 
 4.  Run species-specific data extraction R markdown code that can be found [here](https://github.com/HaikunXu/BSE/tree/main/manual)
 
