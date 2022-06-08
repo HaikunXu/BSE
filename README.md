@@ -1,16 +1,18 @@
-# BSE
+# BSE (Best Scientific Estimates)
+
+This R package is mainly used to prepare purse-seine catch and length composition data for tropical tunas in the eastern Pacific Ocean. Cleridy Lennart-Cody wrote most of the key functions and Haikun Xu wrapped them up into a R package.
 
 How to use this package to extract PS data for the stock assessments of tropical tunas in the eastern Pacific Ocean?
 
 1.  Download raw data from the IATTC database
 
-    A description of how to download raw data using exisitng SQL code can be found [here](https://github.com/HaikunXu/BSE/blob/main/manual/Extract%20raw%20data.pdf)
+    A description of how to download raw data using existing SQL code can be found [here](https://github.com/HaikunXu/BSE/blob/main/manual/Extract%20raw%20data.pdf)
 
-2.  Install the `BSE` package
+2.  Install the BSE package
 
     devtools::install_github('HaikunXu/BSE',ref='main')
 
-3.  If any fishery definition for the three tropical tunas is changed, modify the species-specific fishery definition function and area substitution matrices A description of how to change the code for new fishery definition can be found here
+3.  If any fishery definition for the three tropical tunas is changed, modify the species-specific fishery definition function and area substitution matrices. A description of how to change the code for new fishery definition can be found [here](https://github.com/HaikunXu/BSE/blob/main/manual/New_Fishery_Definition.txt)
 
 4.  Run species-specific data extraction R markdown code that can be found [here](https://github.com/HaikunXu/BSE/tree/main/manual)
 
