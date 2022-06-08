@@ -1,0 +1,4 @@
+When any fishery definition is revised, the code needs to be changed accordingly:
+1. Modify the fishery definition in create.fishery.flg.f
+2. Modify the fishery definition in create.strat.flg.f
+3. Modify the area substitution matrices
