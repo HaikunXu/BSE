@@ -1,9 +1,5 @@
 # BSE (Best Scientific Estimates)
 
-Haikun Xu
-
-06/10/1990
-
 This R package is mainly used to prepare purse-seine catch and length composition data for tropical tunas in the eastern Pacific Ocean. Cleridy Lennart-Cody wrote most of the key functions and Haikun Xu wrapped them up into a R package.
 
 How to use this package to extract purse-seine data for the stock assessments of tropical tunas in the eastern Pacific Ocean?
