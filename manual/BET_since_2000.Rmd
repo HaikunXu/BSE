@@ -1,8 +1,11 @@
 ---
-title: "PS data extraction for BET (2000-2021)"
+title: "Extracting purse-seine catch and length compostion data for bigeye in 2000-2021"
 author: "Haikun Xu"
 date: "`r Sys.Date()`"
-output: html_document
+output:
+  word_document:
+    fig_width: 8
+    fig_height: 6
 ---
 
 ```{r setup, include=FALSE}

@@ -93,15 +93,5 @@ create.strat.flg.f.SKJ = function(lat.5deg,lon.5deg,is.lwrght,month,setype,vesse
   stratum.id<-data.frame(area,month,gear,fishery.areagear)
   stratum.id$fishery.areagear<-as.character(stratum.id$fishery.areagear)
   
-  # plot area code to double-check
-  # plot(x=lon.5deg[stratum.id$area==1],y=lat.5deg[stratum.id$area==1],pch="1",
-  #      xlim=c(min(lon.5deg),max(lon.5deg)),ylim=c(min(lat.5deg),max(lat.5deg)),
-  #      xlab="Lon",ylab="Lat")
-  # if(length(unique(stratum.id$area))>1) {
-  #   for (a in 2:length(unique(stratum.id$area))) {
-  #     points(x=lon.5deg[stratum.id$area==a],y=lat.5deg[stratum.id$area==a],pch=toString(a))
-  #   }
-  # }
-  
   return(stratum.id)
 }

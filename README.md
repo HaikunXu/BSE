@@ -2,7 +2,7 @@
 
 This R package is mainly used to prepare purse-seine catch and length composition data for tropical tunas in the eastern Pacific Ocean. Cleridy Lennart-Cody wrote most of the key functions and Haikun Xu wrapped them up into a R package.
 
-How to use this package to extract PS data for the stock assessments of tropical tunas in the eastern Pacific Ocean?
+How to use this package to extract purse-seine data for the stock assessments of tropical tunas in the eastern Pacific Ocean?
 
 1.  Download raw data from the IATTC database
 
@@ -16,7 +16,7 @@ How to use this package to extract PS data for the stock assessments of tropical
 
 4.  Run species-specific data extraction R markdown code that can be found [here](https://github.com/HaikunXu/BSE/tree/main/manual)
 
-    Since data sources and consequently data extraction functions are different before and after 2000, the data extraction R markdown code is written separately for 1975-1999 and 2000 onward. The data extraction code extracts fishery-specific catch and length composition for user-specified species and time period, saves them as csv files in user-specified directory, and generates a html file to document the whole process.
+    Since data sources and consequently data extraction functions are different before and after 2000, the data extraction R markdown code is written separately for 1975-1999 and 2000 onward. The data extraction code extracts fishery-specific catch and length composition for user-specified species and time period, saves them as csv files in user-specified directory, and generates a Word file to document the whole process.
 
 5.  Run species-specific data formatting R markdown code that can be found [here](https://github.com/HaikunXu/BSE/tree/main/manual)
 
