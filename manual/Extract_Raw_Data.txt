@@ -1,8 +1,0 @@
-From Cleridy:
-
-Regarding the notes on getting the initial data extractions from the data bases, here is information:
-- The data are extracted using the Visual Basic program called ‘DataExtraction.exe’, which can be found in this folder on the Y drive: Y:\Development\Executable. Nick Vogel is the person who wrote and maintains these extraction programs.
-- There are three sub-programs to run:
-o ‘Length frequency II (May 16 2008)’, which is located under the tab ‘Cleridy data files’ (this program produces the files called LengthFreqyyyy.txt and LengthMMyyyy.txt, where yyyy corresponds to year or years).
-o ‘Get prorated UnLoad (June 11 2014)’, which is located under tab ‘Cleridy data files’ (this program produces the file called Unloadingyyyy.txt). Request the "Frozen" option.
-o ‘CAE data’, which is located under the tab ‘Data dump files’ (this program produces the file called CAE-LatLonyyyy.txt, where the program should be run requesting the “CAE table” (not the “frozen” option – but try to run this extraction right after the database has been ‘frozen’); and longtitude/longitude, not EEZ.

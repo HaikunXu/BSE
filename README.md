@@ -1,18 +1,30 @@
 # BSE (Best Scientific Estimates)
 
+Haikun Xu
+
+06/10/1990
+
 This R package is mainly used to prepare purse-seine catch and length composition data for tropical tunas in the eastern Pacific Ocean. Cleridy Lennart-Cody wrote most of the key functions and Haikun Xu wrapped them up into a R package.
 
 How to use this package to extract purse-seine data for the stock assessments of tropical tunas in the eastern Pacific Ocean?
 
 1.  Download raw data from the IATTC database
 
-    A description of how to download raw data using existing SQL code can be found [here](https://github.com/HaikunXu/BSE/blob/main/manual/Extract%20raw%20data.pdf)
+    The data are extracted using the Visual Basic program called ‘DataExtraction.exe’, which can be found in this folder on the Y drive: Y:\\Development\\Executable. Nick Vogel is the person who wrote and maintains these extraction programs. There are three sub-programs to run:
+
+    ‘Length frequency II (May 16 2008)’, which is located under the tab ‘Cleridy data files’ (this program produces the files called LengthFreqyyyy.txt and LengthMMyyyy.txt, where yyyy corresponds to year or years).
+
+    ‘Get prorated UnLoad (June 11 2014)’, which is located under tab ‘Cleridy data files’ (this program produces the file called Unloadingyyyy.txt). Request the "Frozen" option.
+
+    ‘CAE data’, which is located under the tab ‘Data dump files’ (this program produces the file called CAE-LatLonyyyy.txt, where the program should be run requesting the “CAE table” (not the “frozen” option – but try to run this extraction right after the database has been ‘frozen’); and longtitude/longitude, not EEZ.
 
 2.  Install the BSE package
 
-    devtools::install_github('HaikunXu/BSE',ref='main')
+    `library(devtools)`
 
-3.  If any fishery definition for the three tropical tunas is changed, modify the species-specific fishery definition function and area substitution matrices. A description of how to change the code for new fishery definition can be found [here](https://github.com/HaikunXu/BSE/blob/main/manual/New_Fishery_Definition.txt). Please contact Haikun Xu (hkxu\@iattc.org) if you need help to update the fishery definition in this package's functions for your assessment.
+    `devtools::install_github('HaikunXu/BSE',ref='main')`
+
+3.  If any fishery definition for the three tropical tunas is changed, modify the species-specific fishery (create.fishery.flg.f) and strata (create.strat.flg.f) definition functions and the associated area substitution matrices. Please contact Haikun Xu (hkxu\@iattc.org) if you need help to update the fishery definition in this package's functions for your assessment.
 
 4.  Run species-specific data extraction R markdown code that can be found [here](https://github.com/HaikunXu/BSE/tree/main/manual)
 
