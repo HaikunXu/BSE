@@ -12,6 +12,10 @@ get.catch.estimates.f = function(cae.in,caestrtflg.in,totunlds.in,lfgrpd.in,lfgr
   # this version requires that well.estimates.f has already been run and that you specify the area substitution matrix
   # myarea.submat is the area substitution matrix that corresponds to whatever strata you are using
   #
+  
+  # June 13 2022: add a checking for the area.substitution.mat
+  if(length(unique(apply(myarea.submat,1,sum))) > 1) stop("Wrong area.substitution.mat!")
+  
   # Get total unloads for each catch stratum
   totunlds.bystrat<-get.strat.unloads.f(cae.in[cae.in$year==my.year,],caestrtflg.in[cae.in$year==my.year,],totunlds.in[as.numeric(dimnames(totunlds.in)[[1]])==my.year])
   # assign(paste("totunlds.bystrat.",my.year,sep=""),totunlds.bystrat,pos=1)
