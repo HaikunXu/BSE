@@ -14,6 +14,8 @@ How to use this package to extract purse-seine data for the stock assessments of
 
     ‘CAE data’, which is located under the tab ‘Data dump files’ (this program produces the file called CAE-LatLonyyyy.txt, where the program should be run requesting the “CAE table” (not the “frozen” option – but try to run this extraction right after the database has been ‘frozen’); and longtitude/longitude, not EEZ.
 
+    ***All current raw data (1975-2021) are already available at P:\\hkxu\\BSE***
+
 2.  Install the BSE package
 
     `library(devtools)`
