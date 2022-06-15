@@ -1,6 +1,6 @@
 # BSE (Best Scientific Estimates)
 
-This R package is mainly used to prepare purse-seine catch and length composition data for tropical tunas in the eastern Pacific Ocean. Cleridy Lennart-Cody wrote most of the key functions and Haikun Xu wrapped them up into a R package.
+This R package is mainly used to prepare purse-seine catch and length composition data for tropical tunas in the eastern Pacific Ocean. Cleridy Lennart-Cody wrote most of the key functions and Haikun Xu wrapped them up into a R package. The R functions Cleridy built for the assessments up to SAC-13 are stored in [version 1.0.0](https://github.com/HaikunXu/BSE/releases/tag/v1.0.0). Additional improvement since SAC-13 will be updated in future versions.
 
 How to use this package to extract purse-seine data for the stock assessments of tropical tunas in the eastern Pacific Ocean?
 
@@ -14,7 +14,7 @@ How to use this package to extract purse-seine data for the stock assessments of
 
     ‘CAE data’, which is located under the tab ‘Data dump files’ (this program produces the file called CAE-LatLonyyyy.txt, where the program should be run requesting the “CAE table” (not the “frozen” option – but try to run this extraction right after the database has been ‘frozen’); and longtitude/longitude, not EEZ.
 
-    ***All current raw data (1975-2021) are already available at P:\\hkxu\\BSE***
+    ***\*\*\* All current raw data (1975-2021) are already available at P:\\hkxu\\BSE \*\*\****
 
 2.  Install the BSE package
 
