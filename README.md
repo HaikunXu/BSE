@@ -20,7 +20,7 @@ How to use this package to extract purse-seine data for the stock assessments of
 
     `library(devtools)`
 
-    `devtools::install_github('HaikunXu/BSE',ref='main')`
+    `devtools::install_github('HaikunXu/BSE', ref = 'main')`
 
 3.  If any fishery definition for the three tropical tunas is changed, modify the species-specific fishery (create.fishery.flg.f) and strata (create.strat.flg.f) definition functions and the associated area substitution matrices. Also, edit the code that is the last resort for finding a substitution (substitute.f). Please contact Haikun Xu (hkxu\@iattc.org) if you need help to update the fishery definition in this package's functions for your assessment.
 
