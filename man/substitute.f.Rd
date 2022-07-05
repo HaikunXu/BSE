@@ -14,7 +14,9 @@ substitute.f(
   area.sub,
   month.sub,
   min.subsize,
-  growth.increments.array
+  growth.increments.array,
+  PS,
+  fishery.sub.mat
 )
 }
 \description{
