@@ -94,7 +94,7 @@ SKJ.OBJ.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=
 ```{r NOA}
 PS <- "NOA"
 area.substitution.mat <- area.substitution.mat.SKJ.UNA.SAC2022 # for NOA
-fishery.substitution.mat <- matrix(paste0("FO.A", area.substitution.mat),ncol=ncol(area.substitution.mat)) # fishery and area definitions are identical
+fishery.substitution.mat <- matrix(paste0("UN.A", area.substitution.mat),ncol=ncol(area.substitution.mat)) # fishery and area definitions are identical
 
 cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
 lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
@@ -140,7 +140,7 @@ SKJ.NOA.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=
 ```{r DEL}
 PS <- "DEL"
 area.substitution.mat <- area.substitution.mat.SKJ.DEL.SAC2022 # for DEL
-fishery.substitution.mat <- matrix(paste0("FO.A", area.substitution.mat),ncol=ncol(area.substitution.mat)) # fishery and area definitions are identical
+fishery.substitution.mat <- matrix(paste0("DP.A", area.substitution.mat),ncol=ncol(area.substitution.mat)) # fishery and area definitions are identical
 
 cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
 lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
