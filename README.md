@@ -1,6 +1,6 @@
 # BSE (Best Scientific Estimates)
 
-This R package is mainly used to prepare purse-seine catch and length composition data for tropical tunas in the eastern Pacific Ocean. Cleridy Lennart-Cody wrote most of the key functions and Haikun Xu wrapped them up into a R package. The R functions Cleridy built for the assessments up to SAC-13 are stored in version 1.0.0 (`devtools::install_github('HaikunXu/BSERegressionTree', ref = 'v1.0.0')`). Additional improvement since SAC-13 will be updated in future versions.
+This R package is mainly used to prepare purse-seine catch and length composition data for tropical tunas in the eastern Pacific Ocean. Cleridy Lennart-Cody wrote most of the key functions and Haikun Xu wrapped them up into a R package. The R functions Cleridy built for the assessments up to SAC-13 are stored in version 1.0.0 (`devtools::install_github('HaikunXu/BSERegressionTree', ref = 'v1.0.0')`). Additional improvement since SAC-13 will be updated in future versions. A document recording the equations used in the method can be found [here](https://github.com/HaikunXu/BSE/blob/main/note/BET-02-06_Summary-of-purse-seine-data-for-bigeye-tuna-in-the-eastern-Pacific-Ocean.pdf).
 
 ### How to use this package to extract purse-seine data for the stock assessments of tropical tunas in the eastern Pacific Ocean?
 
