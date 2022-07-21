@@ -18,7 +18,9 @@ get.catch.estimates.f(
   growshrink.incrs.mat.touse,
   PS,
   Species,
-  fishery.sub.mat
+  fo.sub,
+  un.sub,
+  dp.sub
 )
 }
 \description{

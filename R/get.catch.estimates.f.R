@@ -4,7 +4,7 @@
 #' 
 #' @export
 
-get.catch.estimates.f = function(cae.in,caestrtflg.in,totunlds.in,lfgrpd.in,lfgrpd.stratflg.in,lfmm.in,my.year,minsamps.in,well.estimates,myarea.submat,growshrink.incrs.mat.touse,PS,Species,fishery.sub.mat)
+get.catch.estimates.f = function(cae.in,caestrtflg.in,totunlds.in,lfgrpd.in,lfgrpd.stratflg.in,lfmm.in,my.year,minsamps.in,well.estimates,myarea.submat,growshrink.incrs.mat.touse,PS,Species,fo.sub,un.sub,dp.sub)
 {
   # spp comp P-S
   #
@@ -46,7 +46,7 @@ get.catch.estimates.f = function(cae.in,caestrtflg.in,totunlds.in,lfgrpd.in,lfgr
   rm(tmpcl)
   # assign(paste("tmp.unlds.stratdefns.miss",my.year,sep=""),tmp.unlds.stratdefns.miss,pos=1)
   #
-  stratum.estimates.NOsamps<-substitute.f(tmp.unlds.stratdefns.miss,totunlds.bystrat$totunlds.bystr[is.na(stratum.estimates.withsamps$unloads.vs.wells)],lfgrpd.in[lfgrpd.in$year.firstset==my.year,],lfgrpd.stratflg.in[lfgrpd.in$year.firstset==my.year,],lfmm.in,gear.substitution.mat,myarea.submat,month.substitution.mat,minsamps.in,growshrink.incrs.mat.touse,PS,fishery.sub.mat)
+  stratum.estimates.NOsamps<-substitute.f(tmp.unlds.stratdefns.miss,totunlds.bystrat$totunlds.bystr[is.na(stratum.estimates.withsamps$unloads.vs.wells)],lfgrpd.in[lfgrpd.in$year.firstset==my.year,],lfgrpd.stratflg.in[lfgrpd.in$year.firstset==my.year,],lfmm.in,gear.substitution.mat,myarea.submat,month.substitution.mat,minsamps.in,growshrink.incrs.mat.touse,fo.sub,un.sub,dp.sub)
   # assign(paste("stratum.estimates.",my.year,".NOsamps",sep=""),stratum.estimates.NOsamps,pos=1)
   return(list("totunlds.bystrat"=totunlds.bystrat,
               "well.stratflg"=well.stratflg,

@@ -4,7 +4,7 @@
 #' 
 #' @export
 
-substitute.f <- function(strat.defns,unloads.bystrat.miss,lfgrpd.all.frm,lfgrpd.stratflg,lfmm.all.frm,gear.sub,area.sub,month.sub,min.subsize,growth.increments.array,PS,fishery.sub.mat)
+substitute.f <- function(strat.defns,unloads.bystrat.miss,lfgrpd.all.frm,lfgrpd.stratflg,lfmm.all.frm,gear.sub,area.sub,month.sub,min.subsize,growth.increments.array,fo.fishery.submat,un.fishery.submat,dp.fishery.submat)
 {
   # this function computes catch species and size composition for strata with unloads (ie, cae+idm) but no sample data
   # edited version of stratum.estimates.f (see that function for documentation details of equations)
@@ -57,20 +57,21 @@ substitute.f <- function(strat.defns,unloads.bystrat.miss,lfgrpd.all.frm,lfgrpd.
       #
       if(nrow(lfgrpd.sub.frm)==0){
         # no data for this fishery for the year so we are desperate to find a substitution option
-        if(PS=="OBJ") fo.type <- "FO"
-        if(PS=="NOA") fo.type <- "UN"
-        if(PS=="DEL") fo.type <- "DP"
-        # fo.type<-substr(substr.info$fishery.areagear,1,2)
+        # if(PS=="OBJ") fo.type <- "FO"
+        # if(PS=="NOA") fo.type <- "UN"
+        # if(PS=="DEL") fo.type <- "DP"
+        fo.type = substr(substr.info$fishery.areagear,1,2)
         
         if(fo.type=="FO"){
-          cols.fomat<-ncol(fishery.submat)
+          cols.fomat<-ncol(fo.fishery.submat)
           fish.found<-F
           ifish.sub<-2
           while(!fish.found & ifish.sub<=cols.fomat){
-            lfgrpd.sub.frm<-lfgrpd.all.frm[lfgrpd.stratflg$fishery.areagear==fishery.submat[fishery.submat[,1]==substr.info$fishery.areagear,ifish.sub],]
+            lfgrpd.sub.frm<-lfgrpd.all.frm[lfgrpd.stratflg$fishery.areagear==fo.fishery.submat[fo.fishery.submat[,1]==substr.info$fishery.areagear,ifish.sub],]
             if(nrow(lfgrpd.sub.frm)>=1){
               # this only means there is at least one well sample; need to fix in future when modify all code to use samples from original (if there) plus samples in substitute stratum
               fish.found<-T
+              print("Found FO fishery-level substitution")
             } else {
               ifish.sub<-ifish.sub+1
             }
@@ -78,56 +79,52 @@ substitute.f <- function(strat.defns,unloads.bystrat.miss,lfgrpd.all.frm,lfgrpd.
           #
           # if ifish.sub is gt than cols.fomat no data found
           if(ifish.sub==(cols.fomat+1)){
-            print("********* No data found FO fishery-level substitution")
+            print("********* No data found for FO fishery-level substitution")
           }
           #
         } # end of if for FO
         #
         if(fo.type=="UN"){
-          cols.unmat<-ncol(fishery.submat)
+          cols.unmat<-ncol(un.fishery.submat)
           fish.found<-F
           ifish.sub<-2
           while(!fish.found & ifish.sub<=cols.unmat){
-            lfgrpd.sub.frm<-lfgrpd.all.frm[lfgrpd.stratflg$fishery.areagear==fishery.submat[fishery.submat[,1]==substr.info$fishery.areagear,ifish.sub],]
+            lfgrpd.sub.frm<-lfgrpd.all.frm[lfgrpd.stratflg$fishery.areagear==un.fishery.submat[un.fishery.submat[,1]==substr.info$fishery.areagear,ifish.sub],]
             if(nrow(lfgrpd.sub.frm)>=1){
               # this only means there is at least one well sample; need to fix in future when modify all code to use samples from original (if there) plus samples in substitute stratum
               fish.found<-T
+              print("Found UN fishery-level substitution")
             } else {
               ifish.sub<-ifish.sub+1
             }
           } # end of while loop
           #
           # if ifish.sub is gt than cols.fomat no data found
-          if(ifish.sub==(cols.fomat+1)){
-            print("********* No data found UN fishery-level substitution")
+          if(ifish.sub==(cols.unmat+1)){
+            print("********* No data found for UN fishery-level substitution")
           }
-          #
-          # NOTE that UN substitution commented out immediately below was using whole EPO 
-          #           lfgrpd.sub.frm<-lfgrpd.all.frm[substr(lfgrpd.stratflg$fishery.areagear,1,2)==fo.type,]
           #
         } # end of if for UN
         #
         if(fo.type=="DP"){
-          cols.dpmat<-ncol(fishery.submat)
+          cols.dpmat<-ncol(dp.fishery.submat)
           fish.found<-F
           ifish.sub<-2
           while(!fish.found & ifish.sub<=cols.dpmat){
-            lfgrpd.sub.frm<-lfgrpd.all.frm[lfgrpd.stratflg$fishery.areagear==fishery.submat[fishery.submat[,1]==substr.info$fishery.areagear,ifish.sub],]
+            lfgrpd.sub.frm<-lfgrpd.all.frm[lfgrpd.stratflg$fishery.areagear==dp.fishery.submat[dp.fishery.submat[,1]==substr.info$fishery.areagear,ifish.sub],]
             if(nrow(lfgrpd.sub.frm)>=1){
               # this only means there is at least one well sample; need to fix in future when modify all code to use samples from original (if there) plus samples in substitute stratum
               fish.found<-T
+              print("Found DP fishery-level substitution")
             } else {
               ifish.sub<-ifish.sub+1
             }
           } # end of while loop
           #
           # if ifish.sub is gt than cols.fomat no data found
-          if(ifish.sub==(cols.fomat+1)){
-            print("********* No data found DP fishery-level substitution")
+          if(ifish.sub==(cols.dpmat+1)){
+            print("********* No data found for DP fishery-level substitution")
           }
-          #
-          # NOTE that DP substitution commented out immediately below was using whole EPO 
-          #           lfgrpd.sub.frm<-lfgrpd.all.frm[substr(lfgrpd.stratflg$fishery.areagear,1,2)==fo.type,]
           #
         } # end of if for DP
         #
