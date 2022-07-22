@@ -31,30 +31,34 @@ BET.DEL.Catch.19751999 <- read.csv(paste0(save_dir,"BET.DEL.Catch.19751999.csv")
 ```
 
 ```{r process catch data}
-Year_all <- data.frame(Year = seq(1,(yr.end-1974)*4),
+Year_OBJ <- data.frame(Year = seq(1,(yr.end-1974)*4),
                        Area = rep(c("A1","A2","A3","A4","A5"), each = (yr.end-1974)*4))
 
 BET_OBJ_Catch <- rbind(BET.OBJ.Catch.19751999,BET.OBJ.Catch.20002021) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
   gather(3:7,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
-BET_OBJ_Catch <- left_join(Year_all,BET_OBJ_Catch) %>%
+BET_OBJ_Catch <- left_join(Year_OBJ,BET_OBJ_Catch) %>%
   mutate(Catch=ifelse(is.na(Catch),0,Catch),
          Type="OBJ")
 
+Year_NOA <- data.frame(Year = seq(1,(yr.end-1974)*4),
+                       Area = rep(c("A1","A2"), each = (yr.end-1974)*4))
 BET_NOA_Catch <- rbind(BET.NOA.Catch.19751999,BET.NOA.Catch.20002021) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
-  gather(3:7,key="Area",value="Catch") %>% 
+  gather(3:4,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
-BET_NOA_Catch <- left_join(Year_all,BET_NOA_Catch) %>%
+BET_NOA_Catch <- left_join(Year_NOA,BET_NOA_Catch) %>%
   mutate(Catch=ifelse(is.na(Catch),0,Catch),
          Type="NOA")
 
+Year_DEL <- data.frame(Year = seq(1,(yr.end-1974)*4),
+                       Area = rep(c("A1","A2"), each = (yr.end-1974)*4))
 BET_DEL_Catch <- rbind(BET.DEL.Catch.19751999,BET.DEL.Catch.20002021) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
-  gather(3:7,key="Area",value="Catch") %>% 
+  gather(3:4,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
-BET_DEL_Catch <- left_join(Year_all,BET_DEL_Catch) %>%
+BET_DEL_Catch <- left_join(Year_DEL,BET_DEL_Catch) %>%
   mutate(Catch=ifelse(is.na(Catch),0,Catch),
          Type="DEL")
 

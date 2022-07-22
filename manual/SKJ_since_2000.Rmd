@@ -28,6 +28,16 @@ yr.start <- 2000
 yr.end <- 2021
 Species <- "SKJ"
 grow.increments <- grow.increments.2cmSKJ.betyftskj # the growth increment for SKJ (2cm per month)
+
+# area substitution matrix
+area.substitution.mat.OBJ <- area.substitution.mat.SKJ.FLT.SAC2022
+area.substitution.mat.NOA <- area.substitution.mat.SKJ.UNA.SAC2022
+area.substitution.mat.DEL <- area.substitution.mat.SKJ.DEL.SAC2022
+
+#fishery substitute matrix
+my.FOmatrix <- matrix(paste0("FO.A", area.substitution.mat.OBJ),ncol=ncol(area.substitution.mat.OBJ))
+my.UNmatrix <- matrix(paste0("UN.A", area.substitution.mat.NOA),ncol=ncol(area.substitution.mat.NOA))
+my.DPmatrix <- matrix(paste0("DP.A", area.substitution.mat.DEL),ncol=ncol(area.substitution.mat.DEL))
 ```
 
 -   Step 2: lightly process the raw data so that they can be easily used in rest of steps
@@ -47,8 +57,7 @@ lfgrpd <- read.lengthfreq.f(raw_data_dir,"LengthFreq2000-2021.txt")
 
 ```{r OBJ}
 PS <- "OBJ"
-area.substitution.mat <- area.substitution.mat.SKJ.FLT.SAC2022 # for OBJ
-fishery.substitution.mat <- matrix(paste0("FO.A", area.substitution.mat),ncol=ncol(area.substitution.mat)) # fishery and area definitions are identical
+area.substitution.mat <- area.substitution.mat.OBJ
 
 cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
 lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
@@ -71,7 +80,7 @@ for(year in yr.start:yr.end) {
   well.estimates <- well.estimates.f(lfgrpd[lfgrpd$year.firstset==year,],lfmm)
   
   # print("Step 2: get catch estimates")
-  catch.estimates <- get.catch.estimates.f(cae,cae.stratflg,total.unlds,lfgrpd,lfgrpd.stratflg,lfmm,year,2,well.estimates,area.substitution.mat,grow.increments,PS=PS,Species=Species,fishery.substitution.mat)
+  catch.estimates <- get.catch.estimates.f(cae,cae.stratflg,total.unlds,lfgrpd,lfgrpd.stratflg,lfmm,year,2,well.estimates,area.substitution.mat,grow.increments,PS=PS,Species=Species,my.FOmatrix,my.UNmatrix,my.DPmatrix)
   
   # print("Step 3: get fishery estimates")
   fishery.estimates <- fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$stratum.estimates.NOsamps,year,PS=PS,Species=Species)
@@ -93,8 +102,7 @@ SKJ.OBJ.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=
 
 ```{r NOA}
 PS <- "NOA"
-area.substitution.mat <- area.substitution.mat.SKJ.UNA.SAC2022 # for NOA
-fishery.substitution.mat <- matrix(paste0("UN.A", area.substitution.mat),ncol=ncol(area.substitution.mat)) # fishery and area definitions are identical
+area.substitution.mat <- area.substitution.mat.NOA
 
 cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
 lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
@@ -117,7 +125,7 @@ for(year in yr.start:yr.end) {
   well.estimates <- well.estimates.f(lfgrpd[lfgrpd$year.firstset==year,],lfmm)
   
   # print("Step 2: get catch estimates")
-  catch.estimates <- get.catch.estimates.f(cae,cae.stratflg,total.unlds,lfgrpd,lfgrpd.stratflg,lfmm,year,2,well.estimates,area.substitution.mat,grow.increments,PS=PS,Species=Species,fishery.substitution.mat)
+  catch.estimates <- get.catch.estimates.f(cae,cae.stratflg,total.unlds,lfgrpd,lfgrpd.stratflg,lfmm,year,2,well.estimates,area.substitution.mat,grow.increments,PS=PS,Species=Species,my.FOmatrix,my.UNmatrix,my.DPmatrix)
   
   # print("Step 3: get fishery estimates")
   fishery.estimates <- fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$stratum.estimates.NOsamps,year,PS=PS,Species=Species)
@@ -139,8 +147,7 @@ SKJ.NOA.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=
 
 ```{r DEL}
 PS <- "DEL"
-area.substitution.mat <- area.substitution.mat.SKJ.DEL.SAC2022 # for DEL
-fishery.substitution.mat <- matrix(paste0("DP.A", area.substitution.mat),ncol=ncol(area.substitution.mat)) # fishery and area definitions are identical
+area.substitution.mat <- area.substitution.mat.DEL
 
 cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
 lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
@@ -163,7 +170,7 @@ for(year in yr.start:yr.end) {
   well.estimates <- well.estimates.f(lfgrpd[lfgrpd$year.firstset==year,],lfmm)
   
   # print("Step 2: get catch estimates")
-  catch.estimates <- get.catch.estimates.f(cae,cae.stratflg,total.unlds,lfgrpd,lfgrpd.stratflg,lfmm,year,2,well.estimates,area.substitution.mat,grow.increments,PS=PS,Species=Species,fishery.substitution.mat)
+  catch.estimates <- get.catch.estimates.f(cae,cae.stratflg,total.unlds,lfgrpd,lfgrpd.stratflg,lfmm,year,2,well.estimates,area.substitution.mat,grow.increments,PS=PS,Species=Species,my.FOmatrix,my.UNmatrix,my.DPmatrix)
   
   # print("Step 3: get fishery estimates")
   fishery.estimates <- fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$stratum.estimates.NOsamps,year,PS=PS,Species=Species)
