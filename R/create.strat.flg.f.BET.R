@@ -24,37 +24,67 @@ create.strat.flg.f.BET = function(lat.5deg,lon.5deg,is.lwrght,month,setype,vesse
     lon.5deg<-lon.5deg-2.5
   }
   
-  # BET assessment for SAC 2020
+  if(PS=="OBJ")  {
+    area<-rep(1,nrecs)
+    area[lon.5deg>(-125) & lon.5deg<(-110)]<-2
+    area[lon.5deg>(-110) & lon.5deg<(-100)]<-3
+    area[lon.5deg>(-100) & lat.5deg>(-15)]<-4
+    area[lon.5deg>(-100) & lat.5deg<(-15)]<-5
+
+    print("Using fishery stratification: SKJ Mark assessment 2022 for OBJ")
+
+    # Fishery area-gears for SKJ in OBJ (DEL and UNA are junk)
+    fishery.areagear<-rep(NA,nrecs)
+    fishery.areagear[(gear==2 | gear==5) & area==1]<-"FO.A1"
+    fishery.areagear[(gear==2 | gear==5) & area==2]<-"FO.A2"
+    fishery.areagear[(gear==2 | gear==5) & area==3]<-"FO.A3"
+    fishery.areagear[(gear==2 | gear==5) & area==4]<-"FO.A4"
+    fishery.areagear[(gear==2 | gear==5) & area==5]<-"FO.A5"
+
+    fishery.areagear[(gear==3 | gear==6) & area==1]<-"UN.A1"
+    fishery.areagear[(gear==3 | gear==6) & area>1]<-"UN.A2"
+
+    fishery.areagear[(gear==4 | gear==7) & area==1]<-"DP.A1"
+    fishery.areagear[(gear==4 | gear==7) & area>1]<-"DP.A2"
+  }
+
+  if(PS=="DEL") {
+    area<-rep(1,nrecs)
+    area[lat.5deg<=(-2.5)]<-2
+
+    print("Using fishery stratification: SKJ Mark assessment 2022 for DEL")
+
+    # Fishery area-gears for SKJ in DEL (UNA and OBJ are junk)
+    fishery.areagear<-rep(NA,nrecs)
+    fishery.areagear[(gear==2 | gear==5) & area==1]<-"FO.A1"
+    fishery.areagear[(gear==2 | gear==5) & area>1]<-"FO.A2"
+    #
+    fishery.areagear[(gear==3 | gear==6) & area==1]<-"UN.A1"
+    fishery.areagear[(gear==3 | gear==6) & area>1]<-"UN.A2"
+    #
+    fishery.areagear[(gear==4 | gear==7) & area==1]<-"DP.A1"
+    fishery.areagear[(gear==4 | gear==7) & area==2]<-"DP.A2"
+  }
+
+  if(PS=="NOA") {
+    area<-rep(1,nrecs)
+    area[lon.5deg>-130]<-2
+
+    print("Using fishery stratification: SKJ Mark assessment 2022 for UNA")
+
+    # Fishery area-gears for SKJ in UNA (DEL and OBJ are junk)
+    fishery.areagear<-rep(NA,nrecs)
+    fishery.areagear[(gear==2 | gear==5) & area==1]<-"FO.A1"
+    fishery.areagear[(gear==2 | gear==5) & area>1]<-"FO.A2"
+
+    fishery.areagear[(gear==3 | gear==6) & area==1]<-"UN.A1"
+    fishery.areagear[(gear==3 | gear==6) & area==2]<-"UN.A2"
+
+    fishery.areagear[(gear==4 | gear==7) & area==1]<-"DP.A1"
+    fishery.areagear[(gear==4 | gear==7) & area>1]<-"DP.A2"
+  }
   
-  area<-rep(4,nrecs)
-  area[lon.5deg<=(-112.5) & lat.5deg>=(-7.5)]<-1
-  area[lat.5deg>=(-7.5) & lon.5deg>(-112.5)]<-2
-  area[lat.5deg<=(-12.5) & lon.5deg<=(-112.5)]<-3
-  area[lat.5deg<=(-17.5) & lon.5deg>(-92.5)]<-5
-  
-  # Catch areas for BET in OBJ
-  print("Using fishery stratification: BET assessment 2020 for OBJ")
-  
-  fishery.areagear<-rep(NA,nrecs)
-  fishery.areagear[(gear==2 | gear==5) & area==1]<-"FO.A1"
-  fishery.areagear[(gear==2 | gear==5) & area==2]<-"FO.A2"
-  fishery.areagear[(gear==2 | gear==5) & area==3]<-"FO.A3"
-  fishery.areagear[(gear==2 | gear==5) & area==4]<-"FO.A4"
-  fishery.areagear[(gear==2 | gear==5) & area==5]<-"FO.A5"
-  
-  fishery.areagear[(gear==3 | gear==6) & area==1]<-"UN.A1"
-  fishery.areagear[(gear==3 | gear==6) & area==2]<-"UN.A2"
-  fishery.areagear[(gear==3 | gear==6) & area==3]<-"UN.A3"
-  fishery.areagear[(gear==3 | gear==6) & area==4]<-"UN.A4"
-  fishery.areagear[(gear==3 | gear==6) & area==5]<-"UN.A5"
-  
-  fishery.areagear[(gear==4 | gear==7) & area==1]<-"DP.A1"
-  fishery.areagear[(gear==4 | gear==7) & area==2]<-"DP.A2"
-  fishery.areagear[(gear==4 | gear==7) & area==3]<-"DP.A3"
-  fishery.areagear[(gear==4 | gear==7) & area==4]<-"DP.A4"
-  fishery.areagear[(gear==4 | gear==7) & area==5]<-"DP.A5"
-  
-    # return stratum id data frame
+  # return stratum id data frame
   stratum.id<-data.frame(area,month,gear,fishery.areagear)
   stratum.id$fishery.areagear<-as.character(stratum.id$fishery.areagear)
   
