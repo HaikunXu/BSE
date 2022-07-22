@@ -20,8 +20,8 @@ substitute.f <- function(strat.defns,unloads.bystrat.miss,lfgrpd.all.frm,lfgrpd.
   #
   # edited December 2021 to fix bug in code that searches for a substitution (bug was that number of rows of lfgrpd.all.frm for a cell was used as number of samples, 
   #             which is not correct because records in that data frame are unique tripno x wellsampleno x species (and possibly x sampno if sorted sample)
-  # edited Jan 25 2022 to add fo fishery-level sbustitution (matrix fishery.submat)
-  # edited Jul 1 2022 to added un and dp fishery-level substitution (matrices fishery.submat and fishery.submat) 
+  # edited Jan 25 2022 to add fo fishery-level sbustitution (matrix fo.fishery.submat)
+  # edited Jul 1 2022 to added un and dp fishery-level substitution (matrices un.fishery.submat and dp.fishery.submat) 
   #     Note: column 1 of these three fishery substitution matrices is the fishery seeking a sub, and columns 2-> are the possible subs
   #     Note: there must be at least to fishery areas to use these fishery substitution matrices with the code as written below
   #     Note: this fishery substitution code could be made more efficient
@@ -57,11 +57,8 @@ substitute.f <- function(strat.defns,unloads.bystrat.miss,lfgrpd.all.frm,lfgrpd.
       #
       if(nrow(lfgrpd.sub.frm)==0){
         # no data for this fishery for the year so we are desperate to find a substitution option
-        # if(PS=="OBJ") fo.type <- "FO"
-        # if(PS=="NOA") fo.type <- "UN"
-        # if(PS=="DEL") fo.type <- "DP"
-        fo.type = substr(substr.info$fishery.areagear,1,2)
-        
+        fo.type<-substr(substr.info$fishery.areagear,1,2)
+        #
         if(fo.type=="FO"){
           cols.fomat<-ncol(fo.fishery.submat)
           fish.found<-F
