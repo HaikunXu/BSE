@@ -87,7 +87,7 @@ BET.NOA.Comp.19751999 <- read.csv(paste0(save_dir,"BET.NOA.Comp.19751999.csv"))
 # BET.DEL.Comp.19751999 <- read.csv(paste0(save_dir,"BET.DEL.Comp.19751999.csv"))
 ```
 
-```{r porcess comp data}
+```{r process comp data}
 BET_OBJ_Comp <- rbind(BET.OBJ.Comp.19751999,BET.OBJ.Comp.20002021) %>%
     mutate(Year=(year-1975)*4+quarter, Type="OBJ") %>%
   arrange(area,Year)
@@ -99,7 +99,34 @@ BET_NOA_Comp <- rbind(BET.NOA.Comp.19751999,BET.NOA.Comp.20002021) %>%
 BET_NOA_Comp <- BET_NOA_Comp[c(207,206,3:205)]
 
 BET_PS_Comp <- rbind(BET_OBJ_Comp,BET_NOA_Comp)
-write.csv(BET_PS_Comp,file=paste0(save_dir,"BET_PS_Comp_1975-",yr.end,".csv"),row.names = FALSE)
+
+# process PS LF data
+names(BET_PS_Comp)[5:205] <- 1:201
+
+Nwells <- BET_PS_Comp %>% select(Type,Year,area,nwells)
+  
+BET_PS_Comp_Long <- BET_PS_Comp %>% gather(5:205,key="l",value="lf") %>%
+  mutate(L=cut(as.numeric(l), breaks = c(seq(20,198,2), Inf), right=F, labels = seq(20,198,2))) %>% na.omit() %>%
+  select(Type,Year,area,L,lf) %>%
+  group_by(Type,area,Year,L) %>%
+  summarise(LF=sum(lf))
+
+BET_PS_Comp_Short <- BET_PS_Comp_Long %>%
+  spread(L,LF)
+
+BET_PS_Comp_Final <- left_join(BET_PS_Comp_Short,Nwells)
+
+BET_PS_Comp_SS <- data.frame("Type" = BET_PS_Comp_Final$Type,
+                             "Year" = BET_PS_Comp_Final$Year,
+                             "Month" = 1,
+                             "Fleet" = BET_PS_Comp_Final$area,
+                             "Sex" = 0,
+                             "Part" = 0,
+                             "Nsamp" = BET_PS_Comp_Final$nwells)
+
+BET_PS_Comp_SS <- cbind(BET_PS_Comp_SS, BET_PS_Comp_Final[,4:93], BET_PS_Comp_Final[,4:93])
+  
+write.csv(BET_PS_Comp_SS,file=paste0(save_dir,"BET_PS_Comp_1975-",yr.end,".csv"),row.names = FALSE)
 ```
 
 ```{r plot comp data}

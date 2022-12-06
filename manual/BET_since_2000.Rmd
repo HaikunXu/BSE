@@ -6,8 +6,6 @@ output:
   word_document:
     fig_width: 8
     fig_height: 6
-editor_options: 
-  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}

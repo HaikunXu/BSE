@@ -1,5 +1,5 @@
 ---
-title: "Extracting purse-seine catch and length compostion data for bigeye  in 1975-1999"
+title: "Extracting purse-seine catch and length compostion data for bigeye in 1975-1999"
 author: "Haikun Xu"
 date: "`r Sys.Date()`"
 output:

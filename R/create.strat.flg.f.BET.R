@@ -50,7 +50,7 @@ create.strat.flg.f.BET = function(lat.5deg,lon.5deg,is.lwrght,month,setype,vesse
 
   if(PS=="DEL") {
     area<-rep(1,nrecs)
-    area[lat.5deg<=(-2.5)]<-2
+    area[lon.5deg>-110]<-2
 
     print("Using fishery stratification: SKJ Mark assessment 2022 for DEL")
 
