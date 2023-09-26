@@ -18,15 +18,15 @@ This example code demonstrates how to compile the purse-seine catch and length c
 
 library(tidyverse)
 save_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/BET/"
-yr.end <- 2021
+yr.end <- 2022
 
-BET.OBJ.Catch.20002021 <- read.csv(paste0(save_dir,"BET.OBJ.Catch.20002021.csv"))
+BET.OBJ.Catch.20002022 <- read.csv(paste0(save_dir,"BET.OBJ.Catch.20002022.csv"))
 BET.OBJ.Catch.19751999 <- read.csv(paste0(save_dir,"BET.OBJ.Catch.19751999.csv"))
 
-BET.NOA.Catch.20002021 <- read.csv(paste0(save_dir,"BET.NOA.Catch.20002021.csv"))
+BET.NOA.Catch.20002022 <- read.csv(paste0(save_dir,"BET.NOA.Catch.20002022.csv"))
 BET.NOA.Catch.19751999 <- read.csv(paste0(save_dir,"BET.NOA.Catch.19751999.csv"))
 
-BET.DEL.Catch.20002021 <- read.csv(paste0(save_dir,"BET.DEL.Catch.20002021.csv"))
+BET.DEL.Catch.20002022 <- read.csv(paste0(save_dir,"BET.DEL.Catch.20002022.csv"))
 BET.DEL.Catch.19751999 <- read.csv(paste0(save_dir,"BET.DEL.Catch.19751999.csv"))
 ```
 
@@ -34,7 +34,7 @@ BET.DEL.Catch.19751999 <- read.csv(paste0(save_dir,"BET.DEL.Catch.19751999.csv")
 Year_OBJ <- data.frame(Year = seq(1,(yr.end-1974)*4),
                        Area = rep(c("A1","A2","A3","A4","A5"), each = (yr.end-1974)*4))
 
-BET_OBJ_Catch <- rbind(BET.OBJ.Catch.19751999,BET.OBJ.Catch.20002021) %>% 
+BET_OBJ_Catch <- rbind(BET.OBJ.Catch.19751999,BET.OBJ.Catch.20002022) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
   gather(3:7,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
@@ -44,7 +44,7 @@ BET_OBJ_Catch <- left_join(Year_OBJ,BET_OBJ_Catch) %>%
 
 Year_NOA <- data.frame(Year = seq(1,(yr.end-1974)*4),
                        Area = rep(c("A1","A2"), each = (yr.end-1974)*4))
-BET_NOA_Catch <- rbind(BET.NOA.Catch.19751999,BET.NOA.Catch.20002021) %>% 
+BET_NOA_Catch <- rbind(BET.NOA.Catch.19751999,BET.NOA.Catch.20002022) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
   gather(3:4,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
@@ -54,7 +54,7 @@ BET_NOA_Catch <- left_join(Year_NOA,BET_NOA_Catch) %>%
 
 Year_DEL <- data.frame(Year = seq(1,(yr.end-1974)*4),
                        Area = rep(c("A1","A2"), each = (yr.end-1974)*4))
-BET_DEL_Catch <- rbind(BET.DEL.Catch.19751999,BET.DEL.Catch.20002021) %>% 
+BET_DEL_Catch <- rbind(BET.DEL.Catch.19751999,BET.DEL.Catch.20002022) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
   gather(3:4,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
@@ -77,23 +77,23 @@ ggplot(data=BET_PS_Catch) +
 ```
 
 ```{r load comp data}
-BET.OBJ.Comp.20002021 <- read.csv(paste0(save_dir,"BET.OBJ.Comp.20002021.csv"))
+BET.OBJ.Comp.20002022 <- read.csv(paste0(save_dir,"BET.OBJ.Comp.20002022.csv"))
 BET.OBJ.Comp.19751999 <- read.csv(paste0(save_dir,"BET.OBJ.Comp.19751999.csv"))
 
-BET.NOA.Comp.20002021 <- read.csv(paste0(save_dir,"BET.NOA.Comp.20002021.csv"))
+BET.NOA.Comp.20002022 <- read.csv(paste0(save_dir,"BET.NOA.Comp.20002022.csv"))
 BET.NOA.Comp.19751999 <- read.csv(paste0(save_dir,"BET.NOA.Comp.19751999.csv"))
 
-# BET.DEL.Comp.20002021 <- read.csv(paste0(save_dir,"BET.DEL.Comp.20002021.csv"))
+# BET.DEL.Comp.20002022 <- read.csv(paste0(save_dir,"BET.DEL.Comp.20002022.csv"))
 # BET.DEL.Comp.19751999 <- read.csv(paste0(save_dir,"BET.DEL.Comp.19751999.csv"))
 ```
 
 ```{r process comp data}
-BET_OBJ_Comp <- rbind(BET.OBJ.Comp.19751999,BET.OBJ.Comp.20002021) %>%
+BET_OBJ_Comp <- rbind(BET.OBJ.Comp.19751999,BET.OBJ.Comp.20002022) %>%
     mutate(Year=(year-1975)*4+quarter, Type="OBJ") %>%
   arrange(area,Year)
 BET_OBJ_Comp <- BET_OBJ_Comp[c(207,206,3:205)]
 
-BET_NOA_Comp <- rbind(BET.NOA.Comp.19751999,BET.NOA.Comp.20002021) %>%
+BET_NOA_Comp <- rbind(BET.NOA.Comp.19751999,BET.NOA.Comp.20002022) %>%
     mutate(Year=(year-1975)*4+quarter, Type="NOA") %>%
   arrange(area,Year)
 BET_NOA_Comp <- BET_NOA_Comp[c(207,206,3:205)]

@@ -18,15 +18,15 @@ This example code demonstrates how to compile the purse-seine catch and length c
 
 library(tidyverse)
 save_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/YFT/"
-yr.end <- 2021
+yr.end <- 2022
 
-YFT.OBJ.Catch.20002021 <- read.csv(paste0(save_dir,"YFT.OBJ.Catch.20002021.csv"))
+YFT.OBJ.Catch.20002022 <- read.csv(paste0(save_dir,"YFT.OBJ.Catch.20002022.csv"))
 YFT.OBJ.Catch.19751999 <- read.csv(paste0(save_dir,"YFT.OBJ.Catch.19751999.csv"))
 
-YFT.NOA.Catch.20002021 <- read.csv(paste0(save_dir,"YFT.NOA.Catch.20002021.csv"))
+YFT.NOA.Catch.20002022 <- read.csv(paste0(save_dir,"YFT.NOA.Catch.20002022.csv"))
 YFT.NOA.Catch.19751999 <- read.csv(paste0(save_dir,"YFT.NOA.Catch.19751999.csv"))
 
-YFT.DEL.Catch.20002021 <- read.csv(paste0(save_dir,"YFT.DEL.Catch.20002021.csv"))
+YFT.DEL.Catch.20002022 <- read.csv(paste0(save_dir,"YFT.DEL.Catch.20002022.csv"))
 YFT.DEL.Catch.19751999 <- read.csv(paste0(save_dir,"YFT.DEL.Catch.19751999.csv"))
 ```
 
@@ -34,7 +34,7 @@ YFT.DEL.Catch.19751999 <- read.csv(paste0(save_dir,"YFT.DEL.Catch.19751999.csv")
 Year_OBJ <- data.frame(Year = seq(1,(yr.end-1974)*4),
                        Area = rep(c("A1","A2","A3","A4","A5"), each = (yr.end-1974)*4))
 
-YFT_OBJ_Catch <- rbind(YFT.OBJ.Catch.19751999,YFT.OBJ.Catch.20002021) %>% 
+YFT_OBJ_Catch <- rbind(YFT.OBJ.Catch.19751999,YFT.OBJ.Catch.20002022) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
   gather(3:7,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
@@ -44,7 +44,7 @@ YFT_OBJ_Catch <- left_join(Year_OBJ,YFT_OBJ_Catch) %>%
 
 Year_NOA <- data.frame(Year = seq(1,(yr.end-1974)*4),
                        Area = rep(c("A1","A2","A3","A4"), each = (yr.end-1974)*4))
-YFT_NOA_Catch <- rbind(YFT.NOA.Catch.19751999,YFT.NOA.Catch.20002021) %>% 
+YFT_NOA_Catch <- rbind(YFT.NOA.Catch.19751999,YFT.NOA.Catch.20002022) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
   gather(3:6,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
@@ -54,7 +54,7 @@ YFT_NOA_Catch <- left_join(Year_NOA,YFT_NOA_Catch) %>%
 
 Year_DEL <- data.frame(Year = seq(1,(yr.end-1974)*4),
                        Area = rep(c("A1","A2","A3","A4","A5","A6","A7"), each = (yr.end-1974)*4))
-YFT_DEL_Catch <- rbind(YFT.DEL.Catch.19751999,YFT.DEL.Catch.20002021) %>% 
+YFT_DEL_Catch <- rbind(YFT.DEL.Catch.19751999,YFT.DEL.Catch.20002022) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
   gather(3:9,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
@@ -75,28 +75,28 @@ ggplot(data=YFT_PS_Catch) +
 ```
 
 ```{r load comp data}
-YFT.OBJ.Comp.20002021 <- read.csv(paste0(save_dir,"YFT.OBJ.Comp.20002021.csv"))
+YFT.OBJ.Comp.20002022 <- read.csv(paste0(save_dir,"YFT.OBJ.Comp.20002022.csv"))
 YFT.OBJ.Comp.19751999 <- read.csv(paste0(save_dir,"YFT.OBJ.Comp.19751999.csv"))
 
-YFT.NOA.Comp.20002021 <- read.csv(paste0(save_dir,"YFT.NOA.Comp.20002021.csv"))
+YFT.NOA.Comp.20002022 <- read.csv(paste0(save_dir,"YFT.NOA.Comp.20002022.csv"))
 YFT.NOA.Comp.19751999 <- read.csv(paste0(save_dir,"YFT.NOA.Comp.19751999.csv"))
 
-YFT.DEL.Comp.20002021 <- read.csv(paste0(save_dir,"YFT.DEL.Comp.20002021.csv"))
+YFT.DEL.Comp.20002022 <- read.csv(paste0(save_dir,"YFT.DEL.Comp.20002022.csv"))
 YFT.DEL.Comp.19751999 <- read.csv(paste0(save_dir,"YFT.DEL.Comp.19751999.csv"))
 ```
 
 ```{r porcess comp data}
-YFT_OBJ_Comp <- rbind(YFT.OBJ.Comp.19751999,YFT.OBJ.Comp.20002021) %>%
+YFT_OBJ_Comp <- rbind(YFT.OBJ.Comp.19751999,YFT.OBJ.Comp.20002022) %>%
     mutate(Year=(year-1975)*4+quarter, Type="OBJ") %>%
   arrange(area,Year)
 YFT_OBJ_Comp <- YFT_OBJ_Comp[c(207,206,3:205)]
 
-YFT_NOA_Comp <- rbind(YFT.NOA.Comp.19751999,YFT.NOA.Comp.20002021) %>%
+YFT_NOA_Comp <- rbind(YFT.NOA.Comp.19751999,YFT.NOA.Comp.20002022) %>%
     mutate(Year=(year-1975)*4+quarter, Type="NOA") %>%
   arrange(area,Year)
 YFT_NOA_Comp <- YFT_NOA_Comp[c(207,206,3:205)]
 
-YFT_DEL_Comp <- rbind(YFT.DEL.Comp.19751999,YFT.DEL.Comp.20002021) %>%
+YFT_DEL_Comp <- rbind(YFT.DEL.Comp.19751999,YFT.DEL.Comp.20002022) %>%
     mutate(Year=(year-1975)*4+quarter, Type="DEL") %>%
   arrange(area,Year)
 YFT_DEL_Comp <- YFT_DEL_Comp[c(207,206,3:205)]

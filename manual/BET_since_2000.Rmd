@@ -1,5 +1,5 @@
 ---
-title: "Extracting purse-seine catch and length compostion data for bigeye in 2000-2021"
+title: "Extracting purse-seine catch and length compostion data for bigeye in 2000-2022"
 author: "Haikun Xu"
 date: "`r Sys.Date()`"
 output:
@@ -12,7 +12,7 @@ output:
 knitr::opts_chunk$set(results = FALSE)
 ```
 
-This example code demonstrates how to extract the purse-seine catch and length composition data for the stock assessment of bigeye tuna in the eastern Pacific Ocean. Data are extracted for bigeye between 2000 and 2021 based on the R package *BSE* (version `r packageVersion("BSE")`). The package can be installed using `devtools::install_github('HaikunXu/BSE',ref='main')`. Fishery definition for this data extraction is based on the benchmark assessment conducted in 2020.
+This example code demonstrates how to extract the purse-seine catch and length composition data for the stock assessment of bigeye tuna in the eastern Pacific Ocean. Data are extracted for bigeye between 2000 and 2022 based on the R package *BSE* (version `r packageVersion("BSE")`). The package can be installed using `devtools::install_github('HaikunXu/BSE',ref='main')`. Fishery definition for this data extraction is based on the benchmark assessment conducted in 2020.
 
 -   Step 1: set up some directories and parameters for the extraction
 
@@ -21,11 +21,11 @@ This example code demonstrates how to extract the purse-seine catch and length c
 library(BSE)
 
 # Load the base files (please ask Haikun to get those data)
-raw_data_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/spp comp programs_from 2000/Raw data extractions/"
+raw_data_dir <- "D:/OneDrive - IATTC/IATTC/2023/SAC14/YFT SSIs/DEL/Database/"
 # the directory where output will be saved
 save_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/BET/"
 yr.start <- 2000
-yr.end <- 2021
+yr.end <- 2022
 Species <- "BET"
 grow.increments <- grow.increments.betyftskj # the growth increment matrix
 
@@ -57,13 +57,13 @@ my.DPmatrix <- matrix(paste0("DP.A", area.substitution.mat.DEL),ncol=ncol(area.s
 
 ```{r process raw data}
 # Get the total unloads for the PS fleet
-total.unlds <- read.unloads.f(raw_data_dir,"Unloading2000-2021.txt",yr.start,yr.end)
+total.unlds <- read.unloads.f(raw_data_dir,"Unloading2000-2022.txt",yr.start,yr.end)
 # Get the CAE+IDM data
-cae <- read.cae.f(raw_data_dir,"CAE-LatLon2000-2021.txt",yr.start,yr.end)
+cae <- read.cae.f(raw_data_dir,"CAE-LatLon2000-2022.txt",yr.start,yr.end)
 # Get the length-frequency data (length in millimeters)
-lfmm <- read.lfmmdata.f(raw_data_dir,"LengthMM2000-2021.txt")
+lfmm <- read.lfmmdata.f(raw_data_dir,"LengthMM2000-2022.txt")
 # Get the grouped length-frequency output
-lfgrpd <- read.lengthfreq.f(raw_data_dir,"LengthFreq2000-2021.txt")
+lfgrpd <- read.lengthfreq.f(raw_data_dir,"LengthFreq2000-2022.txt")
 ```
 
 -   Step 3: compile the OBJ catch and composition data for BET
@@ -102,14 +102,14 @@ for(year in yr.start:yr.end) {
   assign(paste0("fishery.estimates.", year), fishery.estimates, pos=1)
 }
 # save middle-step data as a record
-save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"BET_",PS,"_2000-2021.RData"))
+save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"BET_",PS,"_2000-2022.RData"))
 ```
 
 Get final OBJ catch and comp output for the stock assessment
 
 ```{r}
-BET.OBJ.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5")) # five OBJ fisheries
-BET.OBJ.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
+BET.OBJ.Catch.20002022<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5")) # five OBJ fisheries
+BET.OBJ.Comp.20002022<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 
 -   Step 4: compile the NOA catch and composition data for BET
@@ -147,14 +147,14 @@ for(year in yr.start:yr.end) {
   assign(paste0("fishery.estimates.", year), fishery.estimates, pos=1)
 }
 # save middle-step data as a record
-save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"BET_",PS,"_2000-2021.RData"))
+save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"BET_",PS,"_2000-2022.RData"))
 ```
 
 Get final NOA catch and comp output for the stock assessment
 
 ```{r}
-BET.NOA.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2"))  # five NOA fisheries
-BET.NOA.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
+BET.NOA.Catch.20002022<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2"))  # five NOA fisheries
+BET.NOA.Comp.20002022<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 
 -   Step 5: compile the DEL catch and composition data for BET
@@ -192,23 +192,23 @@ for(year in yr.start:yr.end) {
   assign(paste0("fishery.estimates.", year), fishery.estimates, pos=1)
 }
 # save middle-step data as a record
-save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"BET_",PS,"_2000-2021.RData"))
+save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"BET_",PS,"_2000-2022.RData"))
 ```
 
 Get final DEL catch and comp output for the stock assessment
 
 ```{r}
-BET.DEL.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2")) # tive DEL fisheries
-BET.DEL.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
+BET.DEL.Catch.20002022<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2")) # tive DEL fisheries
+BET.DEL.Comp.20002022<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 
 -   Step 6: save all results for BET as csv files
 
 ```{r save results}
-write.csv(BET.OBJ.Catch.20002021,file=paste0(save_dir,"BET.OBJ.Catch.20002021.csv"),row.names = FALSE)
-write.csv(BET.OBJ.Comp.20002021,file=paste0(save_dir,"BET.OBJ.Comp.20002021.csv"),row.names = FALSE)
-write.csv(BET.NOA.Catch.20002021,file=paste0(save_dir,"BET.NOA.Catch.20002021.csv"),row.names = FALSE)
-write.csv(BET.NOA.Comp.20002021,file=paste0(save_dir,"BET.NOA.Comp.20002021.csv"),row.names = FALSE)
-write.csv(BET.DEL.Catch.20002021,file=paste0(save_dir,"BET.DEL.Catch.20002021.csv"),row.names = FALSE)
-write.csv(BET.DEL.Comp.20002021,file=paste0(save_dir,"BET.DEL.Comp.20002021.csv"),row.names = FALSE)
+write.csv(BET.OBJ.Catch.20002022,file=paste0(save_dir,"BET.OBJ.Catch.20002022.csv"),row.names = FALSE)
+write.csv(BET.OBJ.Comp.20002022,file=paste0(save_dir,"BET.OBJ.Comp.20002022.csv"),row.names = FALSE)
+write.csv(BET.NOA.Catch.20002022,file=paste0(save_dir,"BET.NOA.Catch.20002022.csv"),row.names = FALSE)
+write.csv(BET.NOA.Comp.20002022,file=paste0(save_dir,"BET.NOA.Comp.20002022.csv"),row.names = FALSE)
+write.csv(BET.DEL.Catch.20002022,file=paste0(save_dir,"BET.DEL.Catch.20002022.csv"),row.names = FALSE)
+write.csv(BET.DEL.Comp.20002022,file=paste0(save_dir,"BET.DEL.Comp.20002022.csv"),row.names = FALSE)
 ```
