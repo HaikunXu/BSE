@@ -24,7 +24,7 @@ This R package is mainly used to prepare purse-seine catch and length compositio
 
 3.  **If any fishery definition for the three tropical tunas is changed:**
 
-    Modify the species-specific fishery (create.fishery.flg.f) and strata (create.strat.flg.f) definition functions and the associated area substitution matrices. Also, edit the code that is the last resort for finding a substitution (substitute.f). Please contact Haikun Xu (hkxu\@iattc.org) if you need help to update the fishery definition in this package's functions for your assessment.
+    Modify the species-specific fishery (create.fishery.flg.f) and strata (create.strat.flg.f) definition functions and the associated area substitution matrices. Also, edit the code that is the last resort for finding a substitution (substitution matrices). Please contact Haikun Xu (hkxu\@iattc.org) if you need help to update the fishery definition in this package's functions for your assessment.
 
 4.  **Run species-specific data extraction R markdown code that can be found [here](https://github.com/HaikunXu/BSE/tree/main/manual)**
 
