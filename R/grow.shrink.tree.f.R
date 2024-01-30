@@ -1,19 +1,24 @@
 #' xxx
 #' 
-#' \code{grow.shrink.tree.BET.f} yyy
+#' \code{grow.shrink.tree.f} yyy
 #' 
 #' @export
 
-grow.shrink.tree.BET.f = function(well.lngths,bet.grow)
+grow.shrink.tree.f = function(well.lngths, Species)
 {
   # edited version of grow.shrink.bet.f (January 29 2024)
   # assumes that grow/shrink amounts at lengths below 20cm are the same amounts as a 20cm (4cm)
   # this function grows/shrinks bet to quarter mid-point according to Alex bet growth information
-  # input: bet.grwshrk.frm file (bet.grow) and lengths file to be grown/shrunk (lengths raised to well; well.lngths)
+  # input: bet.grwshrk.frm file (growth.increments.array) and lengths file to be grown/shrunk (lengths raised to well; well.lngths)
   # assumes length file is the result of cbind applied to well.estimates.yyyy$ancillary.info and well.estimates.yyyy$Nhat.ijk for species of interest
   # assumes there are no fish to grow/shrink initially below 10 cm, and that growth beyond 200 cm is 0
-  # assumes that both the grow and shrink increments in bet.grow (column 2 and column 3, respectively) are positive values
+  # assumes that both the grow and shrink increments in growth.increments.array (column 2 and column 3, respectively) are positive values
   #
+  
+  if(Species=="BET") growth.increments.array <- grow.increments.betyftskj[20:200,,1]
+  if(Species=="YFT") growth.increments.array <- grow.increments.betyftskj[20:200,,2]
+  if(Species=="SKJ") growth.increments.array <- grow.increments.betyftskj[20:200,,3]
+  
   # compute month of each well sample
   month <- well.lngths$month
   
@@ -26,9 +31,9 @@ grow.shrink.tree.BET.f = function(well.lngths,bet.grow)
   
   # make matrices of grow/shrink amounts (have to add 0 to each because  table stops at 200 cm, and have to add 4cm for smallest fish)
   grow.mat <-
-    matrix(rep(c(rep(4, 10), bet.grow[, 2], 0), nrecs), byrow = T, ncol = nlngths)
+    matrix(rep(c(rep(4, 10), growth.increments.array[, 2], 0), nrecs), byrow = T, ncol = nlngths)
   shrink.mat <-
-    matrix(rep(c(rep(4, 10), bet.grow[, 3], 0), nrecs), byrow = T, ncol = nlngths)
+    matrix(rep(c(rep(4, 10), growth.increments.array[, 3], 0), nrecs), byrow = T, ncol = nlngths)
   
   # compute new length interval lower bounds for each sample
   change.flg <- rep(F, nrecs)
@@ -55,7 +60,7 @@ grow.shrink.tree.BET.f = function(well.lngths,bet.grow)
   
   new.lngths <- data.frame(tmp.lngths)
   names(new.lngths) <-
-    paste(rep("lfcm.", 201), as.character(seq(1, 201)), sep = "")
+    paste(rep("X", 201), as.character(seq(1, 201)), sep = "")
   
   output.frm <- data.frame(well.lngths[, 1:12], new.lngths)
   return(output.frm)
