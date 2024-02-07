@@ -24,17 +24,17 @@ library(BSE)
 raw_data_dir <- "D:/OneDrive - IATTC/IATTC/2023/SAC14/YFT SSIs/DEL/Database/"
 # the directory where output will be saved
 save_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/BET/"
-yr.start <- 2020
-yr.end <- 2020
+yr.start <- 2000
+yr.end <- 2022
 Species <- "BET"
 grow.increments <- grow.increments.betyftskj # the growth increment matrix
 
 # area substitution matrix
 area.substitution.mat.OBJ <- matrix(c(1,2,3,4,5,
                                       2,1,3,4,5,
-                                      3,2,1,4,5,
+                                      3,4,2,5,1,
                                       4,3,5,2,1,
-                                      5,4,3,2,1),
+                                      5,3,4,2,1),
                                     ncol = 5, byrow = TRUE)
 
 area.substitution.mat.NOA <- matrix(c(1,2,

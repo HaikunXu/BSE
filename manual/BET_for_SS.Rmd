@@ -64,15 +64,29 @@ BET_DEL_Catch <- left_join(Year_DEL,BET_DEL_Catch) %>%
 
 BET_NOA_Catch$Catch <- BET_NOA_Catch$Catch + BET_DEL_Catch$Catch
 
-BET_PS_Catch <- rbind(BET_OBJ_Catch,BET_NOA_Catch)
+BET_PS_Catch <- rbind(BET_OBJ_Catch, BET_NOA_Catch) %>%
+  mutate(Seas = 1,
+         CV = 0.01,
+         Fleet = paste0(Type, "-", Area)) %>%
+  select(Year, Seas, Fleet, Catch, CV, Type, Area) %>%
+  filter(Year>16)
+
+BET_PS_Catch_int <- BET_PS_Catch %>%
+  filter(Year == 100) %>%
+  mutate(Year = -999,
+         Catch = ifelse(Fleet == "OBJ-A5", 999, 0))
+
+BET_PS_Catch <- rbind(BET_PS_Catch, BET_PS_Catch_int) %>%
+  arrange(Fleet, Year)
+
 write.csv(BET_PS_Catch,file=paste0(save_dir,"BET_PS_Catch_1975-",yr.end,".csv"),row.names = FALSE)
 ```
 
 ```{r plot catch data}
-ggplot(data=BET_PS_Catch) +
-  geom_line(aes(x=Year,y=Catch,color=Type)) +
-  facet_wrap(~Area,nrow=5,scales = "free") +
-  geom_vline(xintercept = 100.5,linetype = "dashed") +
+ggplot(data = BET_PS_Catch %>% filter(Year > 0)) +
+  geom_line(aes(x = Year, y = Catch, color = Type)) +
+  facet_wrap( ~ Area, nrow = 5, scales = "free") +
+  geom_vline(xintercept = 100.5, linetype = "dashed") +
   theme_bw(16)
 ```
 
