@@ -6,6 +6,8 @@ output:
   word_document:
     fig_width: 12
     fig_height: 12
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -17,6 +19,8 @@ This example code demonstrates how to compile the purse-seine catch and length c
 ```{r load catch data}
 
 library(tidyverse)
+library(BSE)
+
 save_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/BET/"
 yr.end <- 2022
 
@@ -39,8 +43,18 @@ BET_OBJ_Catch <- rbind(BET.OBJ.Catch.19751999,BET.OBJ.Catch.20002022) %>%
   gather(3:7,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
 BET_OBJ_Catch <- left_join(Year_OBJ,BET_OBJ_Catch) %>%
-  mutate(Catch=ifelse(is.na(Catch),0,Catch),
+  mutate(catch=ifelse(is.na(Catch),0,Catch),
          Type="OBJ")
+
+# add discard to the OBJ catches
+BET_OBJ_Catch <- left_join(BET_OBJ_Catch, OBJ_discard_rate_BET)
+BET_OBJ_Catch <- BET_OBJ_Catch %>%
+  mutate(Catch = catch * scaler) %>%
+  select(Year, Area, Catch, Type)
+
+# COVID year's catch adjustment based on the CART model
+BET_OBJ_Catch$Catch[which(BET_OBJ_Catch$Year==2020)] <- BET_OBJ_Catch$Catch[which(BET_OBJ_Catch$Year==2020)] * 0.88
+BET_OBJ_Catch$Catch[which(BET_OBJ_Catch$Year==2021)] <- BET_OBJ_Catch$Catch[which(BET_OBJ_Catch$Year==2021)] * 0.82
 
 Year_NOA <- data.frame(Year = seq(1,(yr.end-1974)*4),
                        Area = rep(c("A1","A2"), each = (yr.end-1974)*4))
@@ -64,6 +78,7 @@ BET_DEL_Catch <- left_join(Year_DEL,BET_DEL_Catch) %>%
 
 BET_NOA_Catch$Catch <- BET_NOA_Catch$Catch + BET_DEL_Catch$Catch
 
+# prepare to the SS format
 BET_PS_Catch <- rbind(BET_OBJ_Catch, BET_NOA_Catch) %>%
   mutate(Seas = 1,
          CV = 0.01,
@@ -71,6 +86,7 @@ BET_PS_Catch <- rbind(BET_OBJ_Catch, BET_NOA_Catch) %>%
   select(Year, Seas, Fleet, Catch, CV, Type, Area) %>%
   filter(Year>16)
 
+# add initial catch for each fishery
 BET_PS_Catch_int <- BET_PS_Catch %>%
   filter(Year == 100) %>%
   mutate(Year = -999,
@@ -128,7 +144,8 @@ BET_PS_Comp_Long <- BET_PS_Comp %>% gather(5:205,key="l",value="lf") %>%
 BET_PS_Comp_Short <- BET_PS_Comp_Long %>%
   spread(L,LF)
 
-BET_PS_Comp_Final <- left_join(BET_PS_Comp_Short,Nwells)
+BET_PS_Comp_Final <- left_join(BET_PS_Comp_Short,Nwells) %>%
+  filter(Year > 16, nwells > 4)
 
 BET_PS_Comp_SS <- data.frame("Type" = BET_PS_Comp_Final$Type,
                              "Year" = BET_PS_Comp_Final$Year,
