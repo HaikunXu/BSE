@@ -53,8 +53,8 @@ BET_OBJ_Catch <- BET_OBJ_Catch %>%
   select(Year, Area, Catch, Type)
 
 # COVID year's catch adjustment based on the CART model
-BET_OBJ_Catch$Catch[which(BET_OBJ_Catch$Year==2020)] <- BET_OBJ_Catch$Catch[which(BET_OBJ_Catch$Year==2020)] * 0.88
-BET_OBJ_Catch$Catch[which(BET_OBJ_Catch$Year==2021)] <- BET_OBJ_Catch$Catch[which(BET_OBJ_Catch$Year==2021)] * 0.82
+BET_OBJ_Catch$Catch[which(BET_OBJ_Catch$Year %in% 181:184)] <- BET_OBJ_Catch$Catch[which(BET_OBJ_Catch$Year %in% 181:184)] * 0.88
+BET_OBJ_Catch$Catch[which(BET_OBJ_Catch$Year %in% 185:188)] <- BET_OBJ_Catch$Catch[which(BET_OBJ_Catch$Year %in% 185:188)] * 0.82
 
 Year_NOA <- data.frame(Year = seq(1,(yr.end-1974)*4),
                        Area = rep(c("A1","A2"), each = (yr.end-1974)*4))
