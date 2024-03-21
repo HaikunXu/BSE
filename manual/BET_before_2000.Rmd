@@ -23,7 +23,7 @@ library(BSE)
 # Load the base files (please ask Haikun to get those data)
 load("D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/single spp programs_PS_1975-1999/Raw data extractions/base files_1975-1999_for SAC 2020.RData")
 # the directory where output will be saved
-save_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/BET/"
+save_dir <- "D:/OneDrive - IATTC/IATTC/2024/SAC15/PS Database/BSE/"
 yr.start <- 1975
 yr.end <- 1999
 Species <- "BET"
