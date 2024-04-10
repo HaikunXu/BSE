@@ -13,15 +13,16 @@ create.fishery.flg.f.SKJ = function(strat.defns,PS)
   # compute quarter id vector
   quarter<-ceiling(strat.defns$month/3)
   
-  # SKJ Mark SAC 2022 assessment
+  # SKJ SAC 2024 assessment
   
   if(PS=="OBJ") {
-    print("Using fishery stratification: SKJ SAC 2022 for OBJ (DP and UN largely junk)")
+    print("Using fishery stratification: SKJ SAC 2024 for OBJ (DP and UN largely junk)")
     areagear<-rep(NA,nrecs)
     areagear[(strat.defns$gear==2 | strat.defns$gear==5) & strat.defns$area==1]<-"FO.A1"
     areagear[(strat.defns$gear==2 | strat.defns$gear==5) & strat.defns$area==2]<-"FO.A2"
     areagear[(strat.defns$gear==2 | strat.defns$gear==5) & strat.defns$area==3]<-"FO.A3"
     areagear[(strat.defns$gear==2 | strat.defns$gear==5) & strat.defns$area==4]<-"FO.A4"
+    areagear[(strat.defns$gear==2 | strat.defns$gear==5) & strat.defns$area==5]<-"FO.A5"
     
     areagear[(strat.defns$gear==3 | strat.defns$gear==6) & strat.defns$area==1]<-"UN.A1"
     areagear[(strat.defns$gear==3 | strat.defns$gear==6) & strat.defns$area>1]<-"UN.A2"
@@ -31,7 +32,7 @@ create.fishery.flg.f.SKJ = function(strat.defns,PS)
   }
   
   if(PS=="NOA") {
-    print("Using fishery stratification: SKJ SAC 2022 for UNA (DP and FO largely junk)")
+    print("Using fishery stratification: SKJ SAC 2024 for UNA (DP and FO largely junk)")
     areagear<-rep(NA,nrecs)
     areagear[(strat.defns$gear==2 | strat.defns$gear==5) & strat.defns$area==1]<-"FO.A1"
     areagear[(strat.defns$gear==2 | strat.defns$gear==5) & strat.defns$area>1]<-"FO.A2"
@@ -40,13 +41,13 @@ create.fishery.flg.f.SKJ = function(strat.defns,PS)
     areagear[(strat.defns$gear==3 | strat.defns$gear==6) & strat.defns$area==2]<-"UN.A2"
     areagear[(strat.defns$gear==3 | strat.defns$gear==6) & strat.defns$area==3]<-"UN.A3"
     areagear[(strat.defns$gear==3 | strat.defns$gear==6) & strat.defns$area==4]<-"UN.A4"
-
+    
     areagear[(strat.defns$gear==4 | strat.defns$gear==7) & strat.defns$area==1]<-"DP.A1"
     areagear[(strat.defns$gear==4 | strat.defns$gear==7) & strat.defns$area>1]<-"DP.A2"
   }
 
   if(PS=="DEL") {
-    print("Using fishery stratification: SKJ SAC 2022 for DEL (FO and UN largely junk)")
+    print("Using fishery stratification: SKJ SAC 2024 for DEL (FO and UN largely junk)")
     areagear<-rep(NA,nrecs)
     areagear[(strat.defns$gear==2 | strat.defns$gear==5) & strat.defns$area==1]<-"FO.A1"
     areagear[(strat.defns$gear==2 | strat.defns$gear==5) & strat.defns$area>1]<-"FO.A2"

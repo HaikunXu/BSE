@@ -1,6 +1,6 @@
 ---
-title: "Extracting purse-seine catch and length compostion data for skipjack in 2000-2021"
-author: "Haikun Xu"
+title: "Extracting purse-seine catch and length compostion data for skipjack in 2000-2023"
+author: "Rujia Bi"
 date: "`r Sys.Date()`"
 output:
   word_document:
@@ -12,27 +12,27 @@ output:
 knitr::opts_chunk$set(results = FALSE)
 ```
 
-This example code demonstrates how to extract the purse-seine catch and length composition data for the stock assessment of skipjack tuna in the eastern Pacific Ocean. Data are extracted for skipjack between 2000 and 2021 based on the R package *BSE* (version `r packageVersion("BSE")`). The package can be installed using `devtools::install_github('HaikunXu/BSE',ref='main')`. Fishery definition for this data extraction is based on the interim assessment conducted in 2022.
+This example code demonstrates how to extract the purse-seine catch and length composition data for the stock assessment of skipjack tuna in the eastern Pacific Ocean. Data are extracted for skipjack between 2000 and 2023 based on the R package *BSE* (version `r packageVersion("BSE")`). The package can be installed using `devtools::install_github('HaikunXu/BSE',ref='main')`. Note that a revised version for SKJ is used. Fishery definition for this data extraction is based on regression tree analysis in 2024.
 
 -   Step 1: set up some directories and parameters for the extraction
 
 ```{r global setup}
-# devtools::install_github('HaikunXu/BSE',ref='main') 
+devtools::install_github('RujiaBi/BSE_SKJ_2024',ref='main')  # Updated for SKJ
 library(BSE)
 
 # Load the base files (please ask Haikun to get those data)
-raw_data_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/spp comp programs_from 2000/Raw data extractions/"
+raw_data_dir <- "C:/Users/rbi/OneDrive - IATTC/BSE/Data/"
 # the directory where output will be saved
-save_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/SKJ/"
+save_dir <- "C:/Users/rbi/OneDrive - IATTC/BSE/Output/"
 yr.start <- 2000
-yr.end <- 2021
+yr.end <- 2023
 Species <- "SKJ"
-grow.increments <- grow.increments.2cmSKJ.betyftskj # the growth increment for SKJ (2cm per month)
+grow.increments <- grow.increments.betyftskj # the growth increment for SKJ (2cm per month)
 
 # area substitution matrix
-area.substitution.mat.OBJ <- area.substitution.mat.SKJ.FLT.SAC2022
-area.substitution.mat.NOA <- area.substitution.mat.SKJ.UNA.SAC2022
-area.substitution.mat.DEL <- area.substitution.mat.SKJ.DEL.SAC2022
+area.substitution.mat.OBJ <- area.substitution.mat.SKJ.FLT.SAC2024
+area.substitution.mat.NOA <- area.substitution.mat.SKJ.UNA.SAC2024
+area.substitution.mat.DEL <- area.substitution.mat.SKJ.DEL.SAC2024
 
 #fishery substitute matrix
 my.FOmatrix <- matrix(paste0("FO.A", area.substitution.mat.OBJ),ncol=ncol(area.substitution.mat.OBJ))
@@ -44,13 +44,13 @@ my.DPmatrix <- matrix(paste0("DP.A", area.substitution.mat.DEL),ncol=ncol(area.s
 
 ```{r process raw data}
 # Get the total unloads for the PS fleet
-total.unlds <- read.unloads.f(raw_data_dir,"Unloading2000-2021.txt",yr.start,yr.end)
+total.unlds <- read.unloads.f(raw_data_dir,"Unloading2000-2023.txt",yr.start,yr.end)
 # Get the CAE+IDM data
-cae <- read.cae.f(raw_data_dir,"CAE-LatLon2000-2021.txt",yr.start,yr.end)
+cae <- read.cae.f(raw_data_dir,"CAE-LatLon2000-2023.txt",yr.start,yr.end)
 # Get the length-frequency data (length in millimeters)
-lfmm <- read.lfmmdata.f(raw_data_dir,"LengthMM2000-2021.txt")
+lfmm <- read.lfmmdata.f(raw_data_dir,"LengthMM2000-2023.txt")
 # Get the grouped length-frequency output
-lfgrpd <- read.lengthfreq.f(raw_data_dir,"LengthFreq2000-2021.txt")
+lfgrpd <- read.lengthfreq.f(raw_data_dir,"LengthFreq2000-2023.txt")
 ```
 
 -   Step 3: compile the OBJ catch and composition data for SKJ
@@ -88,14 +88,14 @@ for(year in yr.start:yr.end) {
   assign(paste0("fishery.estimates.", year), fishery.estimates, pos=1)
 }
 # save middle-step data as a record
-save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"SKJ_",PS,"_2000-2021.RData"))
+save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"SKJ_",PS,"_2000-2023.RData"))
 ```
 
 Get final OBJ catch and comp output for the stock assessment
 
 ```{r}
-SKJ.OBJ.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4")) # four OBJ fisheries
-SKJ.OBJ.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
+SKJ.OBJ.Catch.20002023<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5")) # five OBJ fisheries
+SKJ.OBJ.Comp.20002023<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 
 -   Step 4: compile the NOA catch and composition data for SKJ
@@ -133,14 +133,14 @@ for(year in yr.start:yr.end) {
   assign(paste0("fishery.estimates.", year), fishery.estimates, pos=1)
 }
 # save middle-step data as a record
-save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"SKJ_",PS,"_2000-2021.RData"))
+save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"SKJ_",PS,"_2000-2023.RData"))
 ```
 
 Get final NOA catch and comp output for the stock assessment
 
 ```{r}
-SKJ.NOA.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4"))  # four NOA fisheries
-SKJ.NOA.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
+SKJ.NOA.Catch.20002023<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5"))  # five NOA fisheries
+SKJ.NOA.Comp.20002023<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 
 -   Step 5: compile the DEL catch and composition data for SKJ
@@ -178,23 +178,23 @@ for(year in yr.start:yr.end) {
   assign(paste0("fishery.estimates.", year), fishery.estimates, pos=1)
 }
 # save middle-step data as a record
-save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"SKJ_",PS,"_2000-2021.RData"))
+save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"SKJ_",PS,"_2000-2023.RData"))
 ```
 
 Get final DEL catch and comp output for the stock assessment
 
 ```{r}
-SKJ.DEL.Catch.20002021<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2")) # two DEL fisheries
-SKJ.DEL.Comp.20002021<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
+SKJ.DEL.Catch.20002023<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2")) # two DEL fisheries
+SKJ.DEL.Comp.20002023<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 
 -   Step 6: save all results for SKJ as csv files
 
 ```{r save results}
-write.csv(SKJ.OBJ.Catch.20002021,file=paste0(save_dir,"SKJ.OBJ.Catch.20002021.csv"),row.names = FALSE)
-write.csv(SKJ.OBJ.Comp.20002021,file=paste0(save_dir,"SKJ.OBJ.Comp.20002021.csv"),row.names = FALSE)
-write.csv(SKJ.NOA.Catch.20002021,file=paste0(save_dir,"SKJ.NOA.Catch.20002021.csv"),row.names = FALSE)
-write.csv(SKJ.NOA.Comp.20002021,file=paste0(save_dir,"SKJ.NOA.Comp.20002021.csv"),row.names = FALSE)
-write.csv(SKJ.DEL.Catch.20002021,file=paste0(save_dir,"SKJ.DEL.Catch.20002021.csv"),row.names = FALSE)
-write.csv(SKJ.DEL.Comp.20002021,file=paste0(save_dir,"SKJ.DEL.Comp.20002021.csv"),row.names = FALSE)
+write.csv(SKJ.OBJ.Catch.20002023,file=paste0(save_dir,"SKJ.OBJ.Catch.20002023.csv"),row.names = FALSE)
+write.csv(SKJ.OBJ.Comp.20002023,file=paste0(save_dir,"SKJ.OBJ.Comp.20002023.csv"),row.names = FALSE)
+write.csv(SKJ.NOA.Catch.20002023,file=paste0(save_dir,"SKJ.NOA.Catch.20002023.csv"),row.names = FALSE)
+write.csv(SKJ.NOA.Comp.20002023,file=paste0(save_dir,"SKJ.NOA.Comp.20002023.csv"),row.names = FALSE)
+write.csv(SKJ.DEL.Catch.20002023,file=paste0(save_dir,"SKJ.DEL.Catch.20002023.csv"),row.names = FALSE)
+write.csv(SKJ.DEL.Comp.20002023,file=paste0(save_dir,"SKJ.DEL.Comp.20002023.csv"),row.names = FALSE)
 ```

@@ -29,11 +29,12 @@ create.strat.flg.f.SKJ = function(lat.5deg,lon.5deg,is.lwrght,month,setype,vesse
   # Catch areas for SKJ in OBJ
   if(PS=="OBJ")  {
     area<-rep(1,nrecs)
-    area[lon.5deg>(-122.5) & lat.5deg<=(-12.5)]<-2
-    area[lon.5deg>(-122.5) & lon.5deg<=(-102.5) & lat.5deg>(-12.5)]<-3
-    area[lon.5deg>(-102.5) & lat.5deg>(-12.5)]<-4
+    area[lon.5deg>=(-117.5) & lon.5deg<=(-97.5) & lat.5deg<=(-7.5)]<-2
+    area[lon.5deg>=(-92.5) & lat.5deg<=(-17.5)]<-3
+    area[lon.5deg>=(-92.5) & lat.5deg>=(-12.5) & lat.5deg<=(-7.5)]<-4
+    area[lon.5deg>=(-117.5) & lat.5deg>=(-2.5)]<-5
     
-    print("Using fishery stratification: SKJ Mark assessment 2022 for OBJ")
+    print("Using fishery stratification: SKJ assessment 2024 for OBJ")
     
     # Fishery area-gears for SKJ in OBJ (DEL and UNA are junk)
     fishery.areagear<-rep(NA,nrecs)
@@ -41,6 +42,7 @@ create.strat.flg.f.SKJ = function(lat.5deg,lon.5deg,is.lwrght,month,setype,vesse
     fishery.areagear[(gear==2 | gear==5) & area==2]<-"FO.A2"
     fishery.areagear[(gear==2 | gear==5) & area==3]<-"FO.A3"
     fishery.areagear[(gear==2 | gear==5) & area==4]<-"FO.A4"
+    fishery.areagear[(gear==2 | gear==5) & area==5]<-"FO.A5"
     
     fishery.areagear[(gear==3 | gear==6) & area==1]<-"UN.A1"
     fishery.areagear[(gear==3 | gear==6) & area>1]<-"UN.A2"
@@ -53,7 +55,7 @@ create.strat.flg.f.SKJ = function(lat.5deg,lon.5deg,is.lwrght,month,setype,vesse
     area<-rep(1,nrecs)
     area[lat.5deg<=(-2.5)]<-2
     
-    print("Using fishery stratification: SKJ Mark assessment 2022 for DEL")
+    print("Using fishery stratification: SKJ assessment 2024 for DEL")
     
     # Fishery area-gears for SKJ in DEL (UNA and OBJ are junk)
     fishery.areagear<-rep(NA,nrecs)
@@ -69,11 +71,11 @@ create.strat.flg.f.SKJ = function(lat.5deg,lon.5deg,is.lwrght,month,setype,vesse
   
   if(PS=="NOA") {
     area<-rep(1,nrecs)
-    area[lon.5deg>(-122.5) & lon.5deg<=(-87.5) & lat.5deg<=(17.5)]<-2
-    area[lon.5deg>(-122.5) & lat.5deg>(17.5)]<-3
-    area[lon.5deg>(-87.5)]<-4
+    area[lon.5deg>=(-122.5) & lat.5deg<=(-12.5)]<-2
+    area[lon.5deg>=(-122.5) & lat.5deg<=(12.5) & lat.5deg>=(-7.5)]<-3
+    area[lon.5deg>=(-122.5) & lat.5deg>=(17.5)]<-4
     
-    print("Using fishery stratification: SKJ Mark assessment 2022 for UNA")
+    print("Using fishery stratification: SKJ assessment 2024 for UNA")
     
     # Fishery area-gears for SKJ in UNA (DEL and OBJ are junk)
     fishery.areagear<-rep(NA,nrecs)
