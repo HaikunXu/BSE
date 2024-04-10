@@ -30,9 +30,19 @@ Species <- "SKJ"
 grow.increments <- grow.increments.betyftskj # the growth increment for SKJ (2cm per month)
 
 # area substitution matrix
-area.substitution.mat.OBJ <- area.substitution.mat.SKJ.FLT.SAC2024
-area.substitution.mat.NOA <- area.substitution.mat.SKJ.UNA.SAC2024
-area.substitution.mat.DEL <- area.substitution.mat.SKJ.DEL.SAC2024
+area.substitution.mat.SKJ.FLT.SAC2024 <- matrix(c(1,2,3,4,5,
+                                                  2,1,4,5,4,
+                                                  5,4,2,3,2,
+                                                  4,3,5,2,3,
+                                                  3,5,1,1,1), nrow=5)
+
+
+area.substitution.mat.SKJ.UNA.SAC2024 <- matrix(c(1,2,3,4,
+                                                  3,3,4,3,
+                                                  4,4,2,2,
+                                                  2,1,1,1), nrow=4)
+
+area.substitution.mat.SKJ.DEL.SAC2024 <- area.substitution.mat.SKJ.DEL.SAC2022
 
 #fishery substitute matrix
 my.FOmatrix <- matrix(paste0("FO.A", area.substitution.mat.OBJ),ncol=ncol(area.substitution.mat.OBJ))
