@@ -21,7 +21,7 @@ This example code demonstrates how to compile the purse-seine catch and length c
 library(tidyverse)
 library(BSE)
 
-save_dir <- "D:/OneDrive - IATTC/IATTC/2024/SAC15/PS Database/BSE/"
+save_dir <- "D:/OneDrive - IATTC/IATTC/2024/SAC15/Assessment/Data/PS/"
 yr.end <- 2023
 
 BET.OBJ.Catch.20002023 <- read.csv(paste0(save_dir,"BET.OBJ.Catch.20002023.csv"))
@@ -136,7 +136,7 @@ names(BET_PS_Comp)[5:205] <- 1:201
 Nwells <- BET_PS_Comp %>% select(Type,Year,area,nwells)
   
 BET_PS_Comp_Long <- BET_PS_Comp %>% gather(5:205,key="l",value="lf") %>%
-  mutate(L=cut(as.numeric(l), breaks = c(seq(20,198,2), Inf), right=F, labels = seq(20,198,2))) %>% na.omit() %>%
+  mutate(L=cut(as.numeric(l), breaks = c(0,seq(22,198,2), Inf), right=F, labels = seq(20,198,2))) %>% na.omit() %>%
   select(Type,Year,area,L,lf) %>%
   group_by(Type,area,Year,L) %>%
   summarise(LF=sum(lf))
