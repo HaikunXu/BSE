@@ -32,6 +32,7 @@ grow.shrink.f = function(well.lngths,delta.col,growth.increments.array)
   #
   # convert input length to 1cm bin midpoint to be able to index growth.increments.array
   cmbin.centers<-floor(well.lngths$length.mm/10)+0.5
+  cmbin.centers[cmbin.centers>200] <- 200.5 # this will account for large fish
   #
   # grow/shrink lengths by cm change in growth.increments.array 
   #    (note: need to multiply increment by 10 because keep lengths are in mm for conversion to weight)
