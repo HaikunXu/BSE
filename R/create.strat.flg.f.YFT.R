@@ -28,33 +28,46 @@ create.strat.flg.f.YFT = function(lat.5deg,lon.5deg,is.lwrght,month,setype,vesse
 
   # Catch areas for YFT in DEL
   if(PS=="DEL") {
-  print("Using catch stratification: YFT SAC 12 DEL")
-  area<-rep(1,nrecs)
-  area[lon.5deg>(-132.5) & lon.5deg<=(-122.5) & lat.5deg>(2.5)]<-2
-  area[lat.5deg>(17.5) & lon.5deg>(-122.5)]<-3
-  area[lat.5deg>(7.5) & lat.5deg<=(17.5) & lon.5deg>(-122.5)]<-4
-  area[lat.5deg>(-2.5) & lat.5deg<=(7.5) & lon.5deg>(-122.5)]<-5
-  area[lat.5deg<=(2.5) & lon.5deg<=(-97.5)]<-6
-  area[lat.5deg<=(2.5) & lon.5deg>(-97.5)]<-7
-  
-  # Fishery area-gears for YFT in DEL (UNA and OBJ are junk)
-  print("Using fishery stratification: YFT SAC 12 DEL")
-  fishery.areagear<-rep(NA,nrecs)
-  fishery.areagear[(gear==2 | gear==5) & area<=5]<-"FO.A1"
-  fishery.areagear[(gear==2 | gear==5) & area>5]<-"FO.A2"
-  
-  fishery.areagear[(gear==3 | gear==6) & area<=5]<-"UN.A1"
-  fishery.areagear[(gear==3 | gear==6) & area>5]<-"UN.A2"
-  
-  fishery.areagear[(gear==4 | gear==7) & area==1]<-"DP.A1"
-  fishery.areagear[(gear==4 | gear==7) & area==2]<-"DP.A2"
-  fishery.areagear[(gear==4 | gear==7) & area==3]<-"DP.A3"
-  fishery.areagear[(gear==4 | gear==7) & area==4]<-"DP.A4"
-  fishery.areagear[(gear==4 | gear==7) & area==5]<-"DP.A5"
-  fishery.areagear[(gear==4 | gear==7) & area==6]<-"DP.A6"
-  fishery.areagear[(gear==4 | gear==7) & area==7]<-"DP.A7"
-  
+    print("Using catch stratification: YFT SAC 12 DEL")
+    
+    YFT_DEL <- read.csv("D:/OneDrive - IATTC/IATTC/2024/Irregular clustering/YFT DEL/cluster_YFT.csv")
+    
+    Locations <- data.frame("lat" = lat.5deg, "lon" = lon.5deg)
+    Locations <- dplyr::left_join(Locations, YFT_DEL)
+    
+    # define areas for all grids
+    for (i in 1:nrecs) {
+      if(is.na(Locations$area[i]) == TRUE) {
+        if((Locations$lat[i] > 10 & Locations$lon[i] > (-105))) Locations$area[i] <- 1
+        if(Locations$lat[i] < 0 & Locations$lon[i] > (-85)) Locations$area[i] <- 2
+        if((Locations$lat[i] < 5 & Locations$lon[i] < (-85))) Locations$area[i] <- 3
+        if(Locations$lon[i] < (-130)) Locations$area[i] <- 3
+        if(Locations$lat[i] > 15 & Locations$lon[i] < (-125)) Locations$area[i] <- 3
+        if(Locations$lat[i] > 5 & Locations$lon[i] < (-115) & Locations$lon[i] > (-125)) Locations$area[i] <- 2
+      }
+    }
+    
+    if(sum(is.na(Locations$area)) > 0) {
+      print(Locations[which(is.na(Locations$area)==1),1:2])
+      stop("Error YFT DEL area definitions!")
+    }
+    
+    area <- Locations$area
+      
+    # Fishery area-gears for YFT in DEL (UNA and OBJ are junk)
+    print("Using fishery stratification: YFT SAC 12 DEL")
+    fishery.areagear<-rep(NA,nrecs)
+    fishery.areagear[(gear==2 | gear==5) & area<=5]<-"FO.A1"
+    fishery.areagear[(gear==2 | gear==5) & area>5]<-"FO.A2"
+    
+    fishery.areagear[(gear==3 | gear==6) & area<=5]<-"UN.A1"
+    fishery.areagear[(gear==3 | gear==6) & area>5]<-"UN.A2"
+    
+    fishery.areagear[(gear==4 | gear==7) & area==1]<-"DP.A1"
+    fishery.areagear[(gear==4 | gear==7) & area==2]<-"DP.A2"
+    fishery.areagear[(gear==4 | gear==7) & area==3]<-"DP.A3"
   }
+  
 
   # Catch areas for YFT in UNA
   if(PS=="NOA") {
