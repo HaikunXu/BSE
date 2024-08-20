@@ -46,10 +46,10 @@ lfmm <- read.lfmmdata.f(raw_data_dir,"LengthMM2000-2022.txt")
 lfgrpd <- read.lengthfreq.f(raw_data_dir,"LengthFreq2000-2022.txt")
 ```
 
--   Step 3: compile the DEL catch and composition data for YFT
+-   Step 3: compile the OBJ catch and composition data for YFT
 
-```{r DEL}
-PS <- "DEL"
+```{r OBJ}
+PS <- "OBJ"
 area.substitution.mat<- matrix(
   c(1, 2, 3,
     2, 1, 3,
@@ -62,6 +62,95 @@ area.substitution.mat<- matrix(
 my.FOmatrix <- matrix(paste0("FO.A", area.substitution.mat),ncol=ncol(area.substitution.mat))
 my.UNmatrix <- matrix(paste0("UN.A", area.substitution.mat),ncol=ncol(area.substitution.mat))
 my.DPmatrix <- matrix(paste0("DP.A", area.substitution.mat),ncol=ncol(area.substitution.mat))
+
+cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
+lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
+
+```
+
+Check the strata definition for OBJ in both cae and lf data sets to make sure that they are correct
+
+```{r}
+check.strat.flg.f(cae$latc5,cae$lonc5,cae.stratflg)
+check.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,lfgrpd.stratflg)
+```
+
+Loop through every year between `yr.start` and `yr.end` to get catch and composition data for YFT in the OBJ fishery
+
+```{r}
+for(year in yr.start:yr.end) {
+  # print(paste0("Year: ",year))
+  
+  # print("Step 1: get well estimates")
+  well.estimates <- well.estimates.f(lfgrpd[lfgrpd$year.firstset==year,],lfmm)
+  
+  # print("Step 2: get catch estimates")
+  catch.estimates <- get.catch.estimates.f(cae,cae.stratflg,total.unlds,lfgrpd,lfgrpd.stratflg,lfmm,year,2,well.estimates,area.substitution.mat,grow.increments,PS=PS,Species=Species,my.FOmatrix,my.UNmatrix,my.DPmatrix)
+  
+  # print("Step 3: get fishery estimates")
+  fishery.estimates <- fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$stratum.estimates.NOsamps,year,PS=PS,Species=Species)
+  
+  assign(paste0("fishery.estimates.", year), fishery.estimates, pos=1)
+}
+# save middle-step data as a record
+save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"YFT_",PS,"_2000-2022.RData"))
+```
+
+Get final OBJ catch and comp output for the stock assessment
+
+```{r}
+YFT.OBJ.Catch.20002022<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3")) # five OBJ fisheries
+YFT.OBJ.Comp.20002022<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
+```
+
+-   Step 4: compile the NOA catch and composition data for YFT
+
+```{r NOA}
+PS <- "NOA"
+
+cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
+lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
+```
+
+Check the strata definition for NOA in both cae and lf data sets to make sure that they are correct
+
+```{r}
+check.strat.flg.f(cae$latc5,cae$lonc5,cae.stratflg)
+check.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,lfgrpd.stratflg)
+```
+
+Loop through every year between `yr.start` and `yr.end` to get catch and composition data for YFT in the NOA fishery
+
+```{r}
+for(year in yr.start:yr.end) {
+  # print(paste0("Year: ",year))
+  
+  # print("Step 1: get well estimates")
+  well.estimates <- well.estimates.f(lfgrpd[lfgrpd$year.firstset==year,],lfmm)
+  
+  # print("Step 2: get catch estimates")
+  catch.estimates <- get.catch.estimates.f(cae,cae.stratflg,total.unlds,lfgrpd,lfgrpd.stratflg,lfmm,year,2,well.estimates,area.substitution.mat,grow.increments,PS=PS,Species=Species,my.FOmatrix,my.UNmatrix,my.DPmatrix)
+  
+  # print("Step 3: get fishery estimates")
+  fishery.estimates <- fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$stratum.estimates.NOsamps,year,PS=PS,Species=Species)
+  
+  assign(paste0("fishery.estimates.", year), fishery.estimates, pos=1)
+}
+# save middle-step data as a record
+save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"YFT_",PS,"_2000-2022.RData"))
+```
+
+Get final NOA catch and comp output for the stock assessment
+
+```{r}
+YFT.NOA.Catch.20002022<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3"))  # four NOA fisheries
+YFT.NOA.Comp.20002022<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
+```
+
+-   Step 5: compile the DEL catch and composition data for YFT
+
+```{r DEL}
+PS <- "DEL"
 
 cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
 lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
@@ -105,6 +194,10 @@ YFT.DEL.Comp.20002022<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=
 -   Step 6: save all results for YFT as csv files
 
 ```{r save results}
+write.csv(YFT.OBJ.Catch.20002022,file=paste0(save_dir,"YFT.OBJ.Catch.20002022.csv"),row.names = FALSE)
+write.csv(YFT.OBJ.Comp.20002022,file=paste0(save_dir,"YFT.OBJ.Comp.20002022.csv"),row.names = FALSE)
+write.csv(YFT.NOA.Catch.20002022,file=paste0(save_dir,"YFT.NOA.Catch.20002022.csv"),row.names = FALSE)
+write.csv(YFT.NOA.Comp.20002022,file=paste0(save_dir,"YFT.NOA.Comp.20002022.csv"),row.names = FALSE)
 write.csv(YFT.DEL.Catch.20002022,file=paste0(save_dir,"YFT.DEL.Catch.20002022.csv"),row.names = FALSE)
 write.csv(YFT.DEL.Comp.20002022,file=paste0(save_dir,"YFT.DEL.Comp.20002022.csv"),row.names = FALSE)
 ```

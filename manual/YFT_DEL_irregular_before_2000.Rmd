@@ -32,7 +32,93 @@ Species <- "YFT"
 grow.increments <- grow.increments.betyftskj # the growth increment matrix
 ```
 
--   Step 2: compile the DEL catch and composition data for YFT
+-   Step 2: compile the OBJ catch and composition data for YFT
+
+```{r OBJ}
+PS <- "OBJ"
+cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
+```
+
+Check the strata definition for OBJ to make sure that it is correct
+
+```{r}
+check.strat.flg.f(cae$latc5,cae$lonc5,cae.stratflg)
+```
+
+Loop through every year between `yr.start` and `yr.end` to get catch and composition data for YFT in the OBJ fishery
+
+```{r}
+for(year in yr.start:yr.end) {
+  # print(paste0("Year: ",year))
+  
+  # print("Step 1: get well estimates")
+  well.estimates <- well.estimates.7599.f(year)
+  
+  # print("Step 2: get catch estimates")
+  catch.estimates <- get.catch.estimates.7599.f(cae,cae.stratflg,corrected.unlds,lfgrpd,lfmm,year,2,well.estimates,PS,Species)
+  
+  # print("Step 3: get fishery estimates")
+  # str(catch.estimates$stratum.estimates.withsamps)
+  fishery.estimates <- call.fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$totunlds.bystrat,year,PS,Species)
+  
+  fishery.estimates.yft <- fishery.estimates$yft
+  
+  assign(paste0("fishery.estimates.yft.", year), fishery.estimates.yft, pos=1)
+}
+save(list=objects(pat="fishery.estimates.yft."),file=paste0(save_dir,"YFT_",PS,"_1975-1999.RData"))
+```
+
+Get final OBJ catch and comp output for the stock assessment
+
+```{r}
+YFT.OBJ.Catch.19751999<-compile.catch.output.7599.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3"))
+YFT.OBJ.Comp.19751999<-compile.sizecomps.output.7599.f(yr.start,yr.end,PS=PS,Species=Species)
+```
+
+-   Step 3: compile the NOA catch and composition data for YFT
+
+```{r NOA}
+PS <- "NOA"
+cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
+```
+
+Check the strata definition for NOA make sure that it is correct
+
+```{r}
+check.strat.flg.f(cae$latc5,cae$lonc5,cae.stratflg)
+```
+
+Loop through every year between `yr.start` and `yr.end` to get catch and composition data for YFT in the NOA fishery
+
+```{r}
+for(year in yr.start:yr.end) {
+  # print(paste0("Year: ",year))
+  
+  # print("Step 1: get well estimates")
+  well.estimates <- well.estimates.7599.f(year)
+  
+  # print("Step 2: get catch estimates")
+  catch.estimates <- get.catch.estimates.7599.f(cae,cae.stratflg,corrected.unlds,lfgrpd,lfmm,year,2,well.estimates,PS,Species)
+
+  # print("Step 3: get fishery estimates")
+  # str(catch.estimates$stratum.estimates.withsamps)
+  fishery.estimates <- call.fishery.estimates.f(catch.estimates$stratum.estimates.withsamps,catch.estimates$totunlds.bystrat,year,PS,Species)
+  
+  fishery.estimates.yft <- fishery.estimates$yft
+  
+  assign(paste0("fishery.estimates.yft.", year), fishery.estimates.yft, pos=1)
+}
+save(list=objects(pat="fishery.estimates.yft."),file=paste0(save_dir,"YFT_",PS,"_1975-1999.RData"))
+```
+
+Get final NOA catch and comp output for the stock assessment
+
+```{r}
+YFT.NOA.Catch.19751999<-compile.catch.output.7599.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3"))
+YFT.NOA.Comp.19751999<-compile.sizecomps.output.7599.f(yr.start,yr.end,PS=PS,Species=Species)
+```
+
+-   Step 4: compile the DEL catch and composition data for YFT
 
 ```{r DEL}
 PS <- "DEL"
@@ -78,6 +164,10 @@ YFT.DEL.Comp.19751999<-compile.sizecomps.output.7599.f(yr.start,yr.end,PS=PS,Spe
 -   Step 6: save all results for YFT as csv files
 
 ```{r save results}
+write.csv(YFT.OBJ.Catch.19751999,file=paste0(save_dir,"YFT.OBJ.Catch.19751999.csv"),row.names = FALSE)
+write.csv(YFT.OBJ.Comp.19751999,file=paste0(save_dir,"YFT.OBJ.Comp.19751999.csv"),row.names = FALSE)
+write.csv(YFT.NOA.Catch.19751999,file=paste0(save_dir,"YFT.NOA.Catch.19751999.csv"),row.names = FALSE)
+write.csv(YFT.NOA.Comp.19751999,file=paste0(save_dir,"YFT.NOA.Comp.19751999.csv"),row.names = FALSE)
 write.csv(YFT.DEL.Catch.19751999,file=paste0(save_dir,"YFT.DEL.Catch.19751999.csv"),row.names = FALSE)
 write.csv(YFT.DEL.Comp.19751999,file=paste0(save_dir,"YFT.DEL.Comp.19751999.csv"),row.names = FALSE)
 ```
