@@ -72,6 +72,12 @@ ggplot(data=YFT_PS_Catch) +
   facet_wrap(~Type,nrow=3,scales = "free") +
   geom_vline(xintercept = 100.5,linetype = "dashed") +
   theme_bw(16)
+
+ggplot(data=YFT_PS_Catch %>% filter(Year > 90, Year < 120)) +
+  geom_line(aes(x=Year,y=Catch,color=Area)) +
+  facet_wrap(~Type,nrow=3,scales = "free") +
+  geom_vline(xintercept = 100.5,linetype = "dashed") +
+  theme_bw(16)
 ```
 
 ```{r load comp data}

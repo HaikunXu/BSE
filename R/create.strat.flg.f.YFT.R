@@ -39,11 +39,11 @@ create.strat.flg.f.YFT = function(lat.5deg,lon.5deg,is.lwrght,month,setype,vesse
     for (i in 1:nrecs) {
       if(is.na(Locations$area[i]) == TRUE) {
         if((Locations$lat[i] > 10 & Locations$lon[i] > (-105))) Locations$area[i] <- 1
-        if(Locations$lat[i] < 0 & Locations$lon[i] > (-85)) Locations$area[i] <- 2
-        if((Locations$lat[i] < 5 & Locations$lon[i] < (-85))) Locations$area[i] <- 3
+        if(Locations$lat[i] < 0) Locations$area[i] <- 3
         if(Locations$lon[i] < (-130)) Locations$area[i] <- 3
         if(Locations$lat[i] > 15 & Locations$lon[i] < (-125)) Locations$area[i] <- 3
-        if(Locations$lat[i] > 5 & Locations$lon[i] < (-115) & Locations$lon[i] > (-125)) Locations$area[i] <- 2
+        if(Locations$lat[i] > 30) Locations$area[i] <- 1
+        if(Locations$lat[i] > 5 & Locations$lat[i] < 30 & Locations$lon[i] < (-115) & Locations$lon[i] > (-125)) Locations$area[i] <- 2
       }
     }
     
@@ -82,11 +82,11 @@ create.strat.flg.f.YFT = function(lat.5deg,lon.5deg,is.lwrght,month,setype,vesse
     for (i in 1:nrecs) {
       if(is.na(Locations$area[i]) == TRUE) {
         if((Locations$lat[i] > 10 & Locations$lon[i] > (-105))) Locations$area[i] <- 1
-        if(Locations$lat[i] < 0 & Locations$lon[i] > (-85)) Locations$area[i] <- 2
-        if((Locations$lat[i] < 5 & Locations$lon[i] < (-85))) Locations$area[i] <- 3
+        if(Locations$lat[i] < 0) Locations$area[i] <- 3
         if(Locations$lon[i] < (-130)) Locations$area[i] <- 3
         if(Locations$lat[i] > 15 & Locations$lon[i] < (-125)) Locations$area[i] <- 3
-        if(Locations$lat[i] > 5 & Locations$lon[i] < (-115) & Locations$lon[i] > (-125)) Locations$area[i] <- 2
+        if(Locations$lat[i] > 30) Locations$area[i] <- 1
+        if(Locations$lat[i] > 5 & Locations$lat[i] < 30 & Locations$lon[i] < (-115) & Locations$lon[i] > (-125)) Locations$area[i] <- 2
       }
     }
     
@@ -124,11 +124,11 @@ create.strat.flg.f.YFT = function(lat.5deg,lon.5deg,is.lwrght,month,setype,vesse
     for (i in 1:nrecs) {
       if(is.na(Locations$area[i]) == TRUE) {
         if((Locations$lat[i] > 10 & Locations$lon[i] > (-105))) Locations$area[i] <- 1
-        if(Locations$lat[i] < 0 & Locations$lon[i] > (-85)) Locations$area[i] <- 2
-        if((Locations$lat[i] < 5 & Locations$lon[i] < (-85))) Locations$area[i] <- 3
+        if(Locations$lat[i] < 0) Locations$area[i] <- 3
         if(Locations$lon[i] < (-130)) Locations$area[i] <- 3
         if(Locations$lat[i] > 15 & Locations$lon[i] < (-125)) Locations$area[i] <- 3
-        if(Locations$lat[i] > 5 & Locations$lon[i] < (-115) & Locations$lon[i] > (-125)) Locations$area[i] <- 2
+        if(Locations$lat[i] > 30) Locations$area[i] <- 1
+        if(Locations$lat[i] > 5 & Locations$lat[i] < 30 & Locations$lon[i] < (-115) & Locations$lon[i] > (-125)) Locations$area[i] <- 2
       }
     }
     
