@@ -12,9 +12,8 @@ read.cae.f = function(dir,file,start.year,end.year) {
   # January 24, 2017: edited version of read.cae.f, to handle new format of CAE VB program output
   #
   # read in data
-  tmpcae.frm<-read.table(paste0(dir,file),header=F)
-  names(tmpcae.frm)<-c("tripno","vesno","depyr","depmoda","arryr","arrmoda","flag","gear","source","year","month","day","latc1","lonc1","latc5","lonc5","class","vescap.mt","vescap.mcube.current","vescap.mcube.historical","dml.trip","days.fishing","num.dsets","num.ssets","num.lsets","dph.yft","dph.skj","dph.bet","dph.pbf","sch.yft","sch.skj","sch.bet","sch.pbf","log.yft","log.skj","log.bet","log.pbf")
-  #
+  tmpcae.frm<-read.table(paste0(dir,file),header=F,
+                         col.names = c("tripno","vesno","depyr","depmoda","arryr","arrmoda","flag","gear","source","year","month","day","latc1","lonc1","latc5","lonc5","class","vescap.mt","vescap.mcube.current","vescap.mcube.historical","dml.trip","days.fishing","num.dsets","num.ssets","num.lsets","dph.yft","dph.skj","dph.bet","dph.pbf","sch.yft","sch.skj","sch.bet","sch.pbf","log.yft","log.skj","log.bet","log.pbf"))
   # subset data by gear and year
   tmpcae.frm<-tmpcae.frm[tmpcae.frm$gear==2 & tmpcae.frm$year>=start.year & tmpcae.frm$year<=end.year,]
   #

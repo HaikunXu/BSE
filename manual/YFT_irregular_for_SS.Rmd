@@ -6,6 +6,8 @@ output:
   word_document:
     fig_width: 12
     fig_height: 12
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -18,25 +20,25 @@ This example code demonstrates how to compile the purse-seine catch and length c
 
 library(tidyverse)
 save_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/YFT/"
-yr.end <- 2022
+yr.end <- 2023
 
-YFT.OBJ.Catch.20002022 <- read.csv(paste0(save_dir,"YFT.OBJ.Catch.20002022.csv"))
+YFT.OBJ.Catch.20002023 <- read.csv(paste0(save_dir,"YFT.OBJ.Catch.20002023.csv"))
 YFT.OBJ.Catch.19751999 <- read.csv(paste0(save_dir,"YFT.OBJ.Catch.19751999.csv"))
 
-YFT.NOA.Catch.20002022 <- read.csv(paste0(save_dir,"YFT.NOA.Catch.20002022.csv"))
+YFT.NOA.Catch.20002023 <- read.csv(paste0(save_dir,"YFT.NOA.Catch.20002023.csv"))
 YFT.NOA.Catch.19751999 <- read.csv(paste0(save_dir,"YFT.NOA.Catch.19751999.csv"))
 
-YFT.DEL.Catch.20002022 <- read.csv(paste0(save_dir,"YFT.DEL.Catch.20002022.csv"))
+YFT.DEL.Catch.20002023 <- read.csv(paste0(save_dir,"YFT.DEL.Catch.20002023.csv"))
 YFT.DEL.Catch.19751999 <- read.csv(paste0(save_dir,"YFT.DEL.Catch.19751999.csv"))
 ```
 
 ```{r process catch data}
 Year_OBJ <- data.frame(Year = seq(1,(yr.end-1974)*4),
-                       Area = rep(c("A1","A2","A3"), each = (yr.end-1974)*4))
+                       Area = rep(c("A1","A2","A3","A4"), each = (yr.end-1974)*4))
 
-YFT_OBJ_Catch <- rbind(YFT.OBJ.Catch.19751999,YFT.OBJ.Catch.20002022) %>% 
+YFT_OBJ_Catch <- rbind(YFT.OBJ.Catch.19751999,YFT.OBJ.Catch.20002023) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
-  gather(3:5,key="Area",value="Catch") %>% 
+  gather(3:6,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
 YFT_OBJ_Catch <- left_join(Year_OBJ,YFT_OBJ_Catch) %>%
   mutate(Catch=ifelse(is.na(Catch),0,Catch),
@@ -44,7 +46,7 @@ YFT_OBJ_Catch <- left_join(Year_OBJ,YFT_OBJ_Catch) %>%
 
 Year_NOA <- data.frame(Year = seq(1,(yr.end-1974)*4),
                        Area = rep(c("A1","A2","A3"), each = (yr.end-1974)*4))
-YFT_NOA_Catch <- rbind(YFT.NOA.Catch.19751999,YFT.NOA.Catch.20002022) %>% 
+YFT_NOA_Catch <- rbind(YFT.NOA.Catch.19751999,YFT.NOA.Catch.20002023) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
   gather(3:5,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
@@ -53,10 +55,10 @@ YFT_NOA_Catch <- left_join(Year_NOA,YFT_NOA_Catch) %>%
          Type="NOA")
 
 Year_DEL <- data.frame(Year = seq(1,(yr.end-1974)*4),
-                       Area = rep(c("A1","A2","A3"), each = (yr.end-1974)*4))
-YFT_DEL_Catch <- rbind(YFT.DEL.Catch.19751999,YFT.DEL.Catch.20002022) %>% 
+                       Area = rep(c("A1","A2","A3","A4"), each = (yr.end-1974)*4))
+YFT_DEL_Catch <- rbind(YFT.DEL.Catch.19751999,YFT.DEL.Catch.20002023) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
-  gather(3:5,key="Area",value="Catch") %>% 
+  gather(3:6,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
 YFT_DEL_Catch <- left_join(Year_DEL,YFT_DEL_Catch) %>%
   mutate(Catch=ifelse(is.na(Catch),0,Catch),
@@ -81,28 +83,28 @@ ggplot(data=YFT_PS_Catch %>% filter(Year > 90, Year < 120)) +
 ```
 
 ```{r load comp data}
-YFT.OBJ.Comp.20002022 <- read.csv(paste0(save_dir,"YFT.OBJ.Comp.20002022.csv"))
+YFT.OBJ.Comp.20002023 <- read.csv(paste0(save_dir,"YFT.OBJ.Comp.20002023.csv"))
 YFT.OBJ.Comp.19751999 <- read.csv(paste0(save_dir,"YFT.OBJ.Comp.19751999.csv"))
 
-YFT.NOA.Comp.20002022 <- read.csv(paste0(save_dir,"YFT.NOA.Comp.20002022.csv"))
+YFT.NOA.Comp.20002023 <- read.csv(paste0(save_dir,"YFT.NOA.Comp.20002023.csv"))
 YFT.NOA.Comp.19751999 <- read.csv(paste0(save_dir,"YFT.NOA.Comp.19751999.csv"))
 
-YFT.DEL.Comp.20002022 <- read.csv(paste0(save_dir,"YFT.DEL.Comp.20002022.csv"))
+YFT.DEL.Comp.20002023 <- read.csv(paste0(save_dir,"YFT.DEL.Comp.20002023.csv"))
 YFT.DEL.Comp.19751999 <- read.csv(paste0(save_dir,"YFT.DEL.Comp.19751999.csv"))
 ```
 
 ```{r porcess comp data}
-YFT_OBJ_Comp <- rbind(YFT.OBJ.Comp.19751999,YFT.OBJ.Comp.20002022) %>%
+YFT_OBJ_Comp <- rbind(YFT.OBJ.Comp.19751999,YFT.OBJ.Comp.20002023) %>%
     mutate(Year=(year-1975)*4+quarter, Type="OBJ") %>%
   arrange(area,Year)
 YFT_OBJ_Comp <- YFT_OBJ_Comp[c(207,206,3:205)]
 
-YFT_NOA_Comp <- rbind(YFT.NOA.Comp.19751999,YFT.NOA.Comp.20002022) %>%
+YFT_NOA_Comp <- rbind(YFT.NOA.Comp.19751999,YFT.NOA.Comp.20002023) %>%
     mutate(Year=(year-1975)*4+quarter, Type="NOA") %>%
   arrange(area,Year)
 YFT_NOA_Comp <- YFT_NOA_Comp[c(207,206,3:205)]
 
-YFT_DEL_Comp <- rbind(YFT.DEL.Comp.19751999,YFT.DEL.Comp.20002022) %>%
+YFT_DEL_Comp <- rbind(YFT.DEL.Comp.19751999,YFT.DEL.Comp.20002023) %>%
     mutate(Year=(year-1975)*4+quarter, Type="DEL") %>%
   arrange(area,Year)
 YFT_DEL_Comp <- YFT_DEL_Comp[c(207,206,3:205)]
@@ -111,7 +113,26 @@ YFT_PS_Comp <- rbind(YFT_OBJ_Comp,YFT_NOA_Comp,YFT_DEL_Comp)
 write.csv(YFT_PS_Comp,file=paste0(save_dir,"YFT_PS_Comp_1975-",yr.end,".csv"),row.names = FALSE)
 ```
 
-```{r plot comp data}
+```{r process comp data}
+names(YFT_DEL_Comp)[5:205] <- 1:201
+
+YFT_DEL_Comp_Long <- YFT_DEL_Comp %>% gather(5:205,key="l",value="lf") %>%
+  mutate(L=cut(as.numeric(l), breaks = c(0,seq(22,198,2), Inf), right=F, labels = seq(20,198,2))) %>% na.omit() %>%
+  select(Year,area,L,lf) %>%
+  mutate(L = as.numeric(L)*2+18) %>%
+  group_by(area,Year,L) %>%
+  summarise(LF=sum(lf*L^3)) %>%
+  group_by(area, Year) %>%
+  mutate(LF2 = LF/sum(LF))
+
+ggplot(data=YFT_DEL_Comp_Long %>% filter(Year>104, Year<113)) +
+  geom_smooth(aes(x=L,y=LF2,color=area),span=0.2,se=FALSE) +
+  facet_wrap(~Year, nrow = 8, dir= "v") +
+  ylab("LF * body weight") + 
+  theme_bw()
+```
+
+```{r plot comp data - 1}
 names(YFT_PS_Comp)[5:205] <- 1:201
 YFT_PS_Comp_mean <- YFT_PS_Comp %>%
   gather(5:205,key="Length",value=comp) %>%
@@ -124,4 +145,22 @@ ggplot(data=YFT_PS_Comp_mean) +
   geom_line(aes(x=Length,y=Comp,color=area)) +
   facet_wrap(~Type,nrow = 3) +
   theme_bw(16)
+```
+
+```{r plot comp data - 2}
+names(YFT_PS_Comp)[5:205] <- 1:201
+YFT_PS_Comp_plot <- YFT_PS_Comp %>%
+  gather(5:205,key="Length",value=comp) %>%
+  mutate(Length = as.numeric(Length))
+
+ggplot(data=YFT_PS_Comp_plot %>% filter(Type == "DEL")) +
+  geom_tile(aes(x=Year,y=Length,fill=comp)) +
+    scale_fill_gradient(
+    low = "white",
+    high = "red",
+    na.value = "grey",
+    limits = c(0, 0.1)
+  ) +
+  coord_cartesian(xlim = c(80,120), ylim = c(50,150)) +
+  facet_wrap(~area,nrow=4)
 ```

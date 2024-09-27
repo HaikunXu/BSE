@@ -70,10 +70,11 @@ well.miss.f = function(lfgrpd.substrat.frm,lfmm.frm,substr.info,delta.col,growth
     #
     # get sorted flag and check if unique for sample; process non-split and split samples separately
     sortid<-unique(tmpdat$sorted.flg)
+    # print(tmpdat$sorted.flg)
     if(length(sortid)!=1){
       print(paste("Sample with more than one value for sorted flag: ",sampid.grpd.unq[i]))
     } else {
-      #
+      # print(sortid)
       # process non-split sample
       if(sortid==2){
         lf.well.frm$sorted[i]<-2

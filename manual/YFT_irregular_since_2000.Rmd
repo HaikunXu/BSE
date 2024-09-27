@@ -24,33 +24,24 @@ library(BSE)
 library(tidyverse)
 
 # Load the base files (please ask Haikun to get those data)
-raw_data_dir <- "D:/OneDrive - IATTC/IATTC/2023/SAC14/YFT SSIs/DEL/Database/"
+raw_data_dir <- "D:/OneDrive - IATTC/IATTC/2024/SAC15/PS Database/"
 # the directory where output will be saved
 save_dir <- "D:/OneDrive - IATTC/IATTC/2022/BSE stuff from Cleridy/YFT/"
 yr.start <- 2000
-yr.end <- 2022
+yr.end <- 2023
 Species <- "YFT"
 grow.increments <- grow.increments.betyftskj # the growth increment matrix
-```
 
--   Step 2: lightly process the raw data so that they can be easily used in rest of steps
+area.substitution.mat.OBJ<- matrix(
+  c(1, 2, 3, 4,
+    2, 3, 1, 4,
+    3, 2, 1, 4,
+    4, 3, 2, 1),
+  ncol = 4,
+  byrow = TRUE
+)
 
-```{r process raw data}
-# Get the total unloads for the PS fleet
-total.unlds <- read.unloads.f(raw_data_dir,"Unloading2000-2022.txt",yr.start,yr.end)
-# Get the CAE+IDM data
-cae <- read.cae.f(raw_data_dir,"CAE-LatLon2000-2022.txt",yr.start,yr.end)
-# Get the length-frequency data (length in millimeters)
-lfmm <- read.lfmmdata.f(raw_data_dir,"LengthMM2000-2022.txt")
-# Get the grouped length-frequency output
-lfgrpd <- read.lengthfreq.f(raw_data_dir,"LengthFreq2000-2022.txt")
-```
-
--   Step 3: compile the OBJ catch and composition data for YFT
-
-```{r OBJ}
-PS <- "OBJ"
-area.substitution.mat<- matrix(
+area.substitution.mat.NOA<- matrix(
   c(1, 2, 3,
     2, 1, 3,
     3, 2, 1),
@@ -58,14 +49,44 @@ area.substitution.mat<- matrix(
   byrow = TRUE
 )
 
+area.substitution.mat.DEL<- matrix(
+  c(1, 2, 4, 3,
+    2, 3, 1, 4,
+    3, 2, 1, 4,
+    4, 3, 2, 1),
+  ncol = 4,
+  byrow = TRUE
+)
+
 #fishery substitute matrix
-my.FOmatrix <- matrix(paste0("FO.A", area.substitution.mat),ncol=ncol(area.substitution.mat))
-my.UNmatrix <- matrix(paste0("UN.A", area.substitution.mat),ncol=ncol(area.substitution.mat))
-my.DPmatrix <- matrix(paste0("DP.A", area.substitution.mat),ncol=ncol(area.substitution.mat))
+my.FOmatrix <- matrix(paste0("FO.A", area.substitution.mat.OBJ),ncol=ncol(area.substitution.mat.OBJ))
+
+my.UNmatrix <- matrix(paste0("UN.A", area.substitution.mat.NOA),ncol=ncol(area.substitution.mat.NOA))
+
+my.DPmatrix <- matrix(paste0("DP.A", area.substitution.mat.DEL),ncol=ncol(area.substitution.mat.DEL))
+```
+
+-   Step 2: lightly process the raw data so that they can be easily used in rest of steps
+
+```{r process raw data}
+# Get the total unloads for the PS fleet
+total.unlds <- read.unloads.f(raw_data_dir,"Unloading2000-2023.txt",yr.start,yr.end)
+# Get the CAE+IDM data
+cae <- read.cae.f(raw_data_dir,"CAE-LatLon2000-2023.txt",yr.start,yr.end)
+# Get the length-frequency data (length in millimeters)
+lfmm <- read.lfmmdata.f(raw_data_dir,"LengthMM2000-2023.txt")
+# Get the grouped length-frequency output
+lfgrpd <- read.lengthfreq.f(raw_data_dir,"LengthFreq2000-2023.txt")
+```
+
+-   Step 3: compile the OBJ catch and composition data for YFT
+
+```{r OBJ}
+PS <- "OBJ"
+area.substitution.mat <- area.substitution.mat.OBJ
 
 cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
 lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
-
 ```
 
 Check the strata definition for OBJ in both cae and lf data sets to make sure that they are correct
@@ -79,7 +100,7 @@ Loop through every year between `yr.start` and `yr.end` to get catch and composi
 
 ```{r}
 for(year in yr.start:yr.end) {
-  # print(paste0("Year: ",year))
+  print(paste0("Year: ",year))
   
   # print("Step 1: get well estimates")
   well.estimates <- well.estimates.f(lfgrpd[lfgrpd$year.firstset==year,],lfmm)
@@ -93,20 +114,21 @@ for(year in yr.start:yr.end) {
   assign(paste0("fishery.estimates.", year), fishery.estimates, pos=1)
 }
 # save middle-step data as a record
-save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"YFT_",PS,"_2000-2022.RData"))
+save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"YFT_",PS,"_2000-2023.RData"))
 ```
 
 Get final OBJ catch and comp output for the stock assessment
 
 ```{r}
-YFT.OBJ.Catch.20002022<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3")) # five OBJ fisheries
-YFT.OBJ.Comp.20002022<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
+YFT.OBJ.Catch.20002023<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4")) # five OBJ fisheries
+YFT.OBJ.Comp.20002023<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 
 -   Step 4: compile the NOA catch and composition data for YFT
 
 ```{r NOA}
 PS <- "NOA"
+area.substitution.mat <- area.substitution.mat.NOA
 
 cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
 lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
@@ -123,7 +145,7 @@ Loop through every year between `yr.start` and `yr.end` to get catch and composi
 
 ```{r}
 for(year in yr.start:yr.end) {
-  # print(paste0("Year: ",year))
+  print(paste0("Year: ",year))
   
   # print("Step 1: get well estimates")
   well.estimates <- well.estimates.f(lfgrpd[lfgrpd$year.firstset==year,],lfmm)
@@ -137,7 +159,7 @@ for(year in yr.start:yr.end) {
   assign(paste0("fishery.estimates.", year), fishery.estimates, pos=1)
 }
 # save middle-step data as a record
-save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"YFT_",PS,"_2000-2022.RData"))
+save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"YFT_",PS,"_2000-2023.RData"))
 ```
 
 Get final NOA catch and comp output for the stock assessment
@@ -151,6 +173,7 @@ YFT.NOA.Comp.20002022<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=
 
 ```{r DEL}
 PS <- "DEL"
+area.substitution.mat <- area.substitution.mat.DEL
 
 cae.stratflg <- create.strat.flg.f(cae$latc5,cae$lonc5,is.lwrght=F,cae$month,cae$setype,cae$class,PS=PS,Species=Species)
 lfgrpd.stratflg <- create.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,is.lwrght=T,floor(lfgrpd$moda/100),lfgrpd$setype,lfgrpd$class,PS=PS,Species=Species)
@@ -167,7 +190,7 @@ Loop through every year between `yr.start` and `yr.end` to get catch and composi
 
 ```{r}
 for(year in yr.start:yr.end) {
-  # print(paste0("Year: ",year))
+  print(paste0("Year: ",year))
   
   # print("Step 1: get well estimates")
   well.estimates <- well.estimates.f(lfgrpd[lfgrpd$year.firstset==year,],lfmm)
@@ -181,23 +204,23 @@ for(year in yr.start:yr.end) {
   assign(paste0("fishery.estimates.", year), fishery.estimates, pos=1)
 }
 # save middle-step data as a record
-save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"YFT_",PS,"_2000-2022.RData"))
+save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"YFT_",PS,"_2000-2023.RData"))
 ```
 
 Get final DEL catch and comp output for the stock assessment
 
 ```{r}
-YFT.DEL.Catch.20002022<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3")) # two DEL fisheries
-YFT.DEL.Comp.20002022<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
+YFT.DEL.Catch.20002023<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4")) # two DEL fisheries
+YFT.DEL.Comp.20002023<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 
 -   Step 6: save all results for YFT as csv files
 
 ```{r save results}
-write.csv(YFT.OBJ.Catch.20002022,file=paste0(save_dir,"YFT.OBJ.Catch.20002022.csv"),row.names = FALSE)
-write.csv(YFT.OBJ.Comp.20002022,file=paste0(save_dir,"YFT.OBJ.Comp.20002022.csv"),row.names = FALSE)
-write.csv(YFT.NOA.Catch.20002022,file=paste0(save_dir,"YFT.NOA.Catch.20002022.csv"),row.names = FALSE)
-write.csv(YFT.NOA.Comp.20002022,file=paste0(save_dir,"YFT.NOA.Comp.20002022.csv"),row.names = FALSE)
-write.csv(YFT.DEL.Catch.20002022,file=paste0(save_dir,"YFT.DEL.Catch.20002022.csv"),row.names = FALSE)
-write.csv(YFT.DEL.Comp.20002022,file=paste0(save_dir,"YFT.DEL.Comp.20002022.csv"),row.names = FALSE)
+write.csv(YFT.OBJ.Catch.20002023,file=paste0(save_dir,"YFT.OBJ.Catch.20002023.csv"),row.names = FALSE)
+write.csv(YFT.OBJ.Comp.20002023,file=paste0(save_dir,"YFT.OBJ.Comp.20002023.csv"),row.names = FALSE)
+write.csv(YFT.NOA.Catch.20002023,file=paste0(save_dir,"YFT.NOA.Catch.20002023.csv"),row.names = FALSE)
+write.csv(YFT.NOA.Comp.20002023,file=paste0(save_dir,"YFT.NOA.Comp.20002023.csv"),row.names = FALSE)
+write.csv(YFT.DEL.Catch.20002023,file=paste0(save_dir,"YFT.DEL.Catch.20002023.csv"),row.names = FALSE)
+write.csv(YFT.DEL.Comp.20002023,file=paste0(save_dir,"YFT.DEL.Comp.20002023.csv"),row.names = FALSE)
 ```
