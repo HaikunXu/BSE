@@ -32,29 +32,33 @@ yr.end <- 2023
 Species <- "YFT"
 grow.increments <- grow.increments.betyftskj # the growth increment matrix
 
-area.substitution.mat.OBJ<- matrix(
-  c(1, 2, 3, 4,
-    2, 3, 1, 4,
-    3, 2, 1, 4,
-    4, 3, 2, 1),
-  ncol = 4,
+area.substitution.mat.OBJ <- matrix(
+  c(1, 2, 4, 3, 5,
+    2, 1, 4, 3, 5,
+    3, 4, 2, 1, 5,
+    4, 3, 2, 5, 1,
+    5, 4, 3, 2, 1),
+  ncol = 5,
   byrow = TRUE
 )
 
-area.substitution.mat.NOA<- matrix(
-  c(1, 2, 3,
-    2, 1, 3,
-    3, 2, 1),
-  ncol = 3,
+area.substitution.mat.NOA <- matrix(
+  c(1, 2, 4, 3, 5,
+    2, 1, 4, 3, 5,
+    3, 4, 2, 1, 5,
+    4, 3, 2, 5, 1,
+    5, 4, 3, 2, 1),
+  ncol = 5,
   byrow = TRUE
 )
 
-area.substitution.mat.DEL<- matrix(
-  c(1, 2, 4, 3,
-    2, 3, 1, 4,
-    3, 2, 1, 4,
-    4, 3, 2, 1),
-  ncol = 4,
+area.substitution.mat.DEL <- matrix(
+  c(1, 2, 4, 3, 5,
+    2, 1, 4, 3, 5,
+    3, 4, 2, 1, 5,
+    4, 3, 2, 5, 1,
+    5, 4, 3, 2, 1),
+  ncol = 5,
   byrow = TRUE
 )
 
@@ -93,7 +97,7 @@ Check the strata definition for OBJ in both cae and lf data sets to make sure th
 
 ```{r}
 check.strat.flg.f(cae$latc5,cae$lonc5,cae.stratflg)
-check.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,lfgrpd.stratflg)
+# check.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,lfgrpd.stratflg)
 ```
 
 Loop through every year between `yr.start` and `yr.end` to get catch and composition data for YFT in the OBJ fishery
@@ -120,7 +124,7 @@ save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"YFT_",PS,"_2000
 Get final OBJ catch and comp output for the stock assessment
 
 ```{r}
-YFT.OBJ.Catch.20002023<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4")) # five OBJ fisheries
+YFT.OBJ.Catch.20002023<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5")) # five OBJ fisheries
 YFT.OBJ.Comp.20002023<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 
@@ -165,8 +169,8 @@ save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"YFT_",PS,"_2000
 Get final NOA catch and comp output for the stock assessment
 
 ```{r}
-YFT.NOA.Catch.20002022<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3"))  # four NOA fisheries
-YFT.NOA.Comp.20002022<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
+YFT.NOA.Catch.20002023<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5"))  # four NOA fisheries
+YFT.NOA.Comp.20002023<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 
 -   Step 5: compile the DEL catch and composition data for YFT
@@ -183,7 +187,7 @@ Check the strata definition for DEL in both cae and lf data sets to make sure th
 
 ```{r}
 check.strat.flg.f(cae$latc5,cae$lonc5,cae.stratflg)
-check.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,lfgrpd.stratflg)
+# check.strat.flg.f(lfgrpd$lat.5deg,lfgrpd$lon.5deg,lfgrpd.stratflg)
 ```
 
 Loop through every year between `yr.start` and `yr.end` to get catch and composition data for YFT in the DEL fishery
@@ -210,7 +214,7 @@ save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"YFT_",PS,"_2000
 Get final DEL catch and comp output for the stock assessment
 
 ```{r}
-YFT.DEL.Catch.20002023<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4")) # two DEL fisheries
+YFT.DEL.Catch.20002023<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5")) # two DEL fisheries
 YFT.DEL.Comp.20002023<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 

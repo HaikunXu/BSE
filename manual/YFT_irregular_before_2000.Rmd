@@ -71,7 +71,7 @@ save(list=objects(pat="fishery.estimates.yft."),file=paste0(save_dir,"YFT_",PS,"
 Get final OBJ catch and comp output for the stock assessment
 
 ```{r}
-YFT.OBJ.Catch.19751999<-compile.catch.output.7599.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4"))
+YFT.OBJ.Catch.19751999<-compile.catch.output.7599.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5"))
 YFT.OBJ.Comp.19751999<-compile.sizecomps.output.7599.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 
@@ -114,7 +114,7 @@ save(list=objects(pat="fishery.estimates.yft."),file=paste0(save_dir,"YFT_",PS,"
 Get final NOA catch and comp output for the stock assessment
 
 ```{r}
-YFT.NOA.Catch.19751999<-compile.catch.output.7599.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3"))
+YFT.NOA.Catch.19751999<-compile.catch.output.7599.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5"))
 YFT.NOA.Comp.19751999<-compile.sizecomps.output.7599.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 
@@ -157,7 +157,7 @@ save(list=objects(pat="fishery.estimates.yft."),file=paste0(save_dir,"YFT_",PS,"
 Get final DEL catch and comp output for the stock assessment
 
 ```{r}
-YFT.DEL.Catch.19751999<-compile.catch.output.7599.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4"))
+YFT.DEL.Catch.19751999<-compile.catch.output.7599.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5"))
 YFT.DEL.Comp.19751999<-compile.sizecomps.output.7599.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 

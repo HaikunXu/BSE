@@ -13,7 +13,6 @@ get.summedLF.5deg.f = function(well.samps,dph.vesno.flg,nyear,Species) {
   if(Species=="YFT") spp <- 2
   if(Species=="SKJ") spp <- 3
   
-  
   quarter <- rep(1, length(well.samps$ancillary.info$month))
   quarter[well.samps$ancillary.info$month >= 4 &
             well.samps$ancillary.info$month <= 6] <- 2
@@ -36,8 +35,7 @@ get.summedLF.5deg.f = function(well.samps,dph.vesno.flg,nyear,Species) {
   num.setype.dg5.qrtr.id <- length(unq.setype.dg5.qrtr.id)
   num.wellsamps <- rep(NA, length(num.setype.dg5.qrtr.id))
   #
-  tmplf <-
-    well.samps$Nhat.ijk[well.samps$What.ij[, spp] > 0 & dph.vesno.flg, , spp]
+  tmplf <- well.samps$Nhat.ijk[well.samps$What.ij[, spp] > 0 & dph.vesno.flg, , spp]
   yft.summedlf <- matrix(NA, ncol = 201, nrow = num.setype.dg5.qrtr.id)
   # sum yft LF by set type, 5 degree square and quarter
   for (i in 1:num.setype.dg5.qrtr.id) {

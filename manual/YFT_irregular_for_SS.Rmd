@@ -34,31 +34,31 @@ YFT.DEL.Catch.19751999 <- read.csv(paste0(save_dir,"YFT.DEL.Catch.19751999.csv")
 
 ```{r process catch data}
 Year_OBJ <- data.frame(Year = seq(1,(yr.end-1974)*4),
-                       Area = rep(c("A1","A2","A3","A4"), each = (yr.end-1974)*4))
+                       Area = rep(c("A1","A2","A3","A4","A5"), each = (yr.end-1974)*4))
 
 YFT_OBJ_Catch <- rbind(YFT.OBJ.Catch.19751999,YFT.OBJ.Catch.20002023) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
-  gather(3:6,key="Area",value="Catch") %>% 
+  gather(3:7,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
 YFT_OBJ_Catch <- left_join(Year_OBJ,YFT_OBJ_Catch) %>%
   mutate(Catch=ifelse(is.na(Catch),0,Catch),
          Type="OBJ")
 
 Year_NOA <- data.frame(Year = seq(1,(yr.end-1974)*4),
-                       Area = rep(c("A1","A2","A3"), each = (yr.end-1974)*4))
+                       Area = rep(c("A1","A2","A3","A4","A5"), each = (yr.end-1974)*4))
 YFT_NOA_Catch <- rbind(YFT.NOA.Catch.19751999,YFT.NOA.Catch.20002023) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
-  gather(3:5,key="Area",value="Catch") %>% 
+  gather(3:7,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
 YFT_NOA_Catch <- left_join(Year_NOA,YFT_NOA_Catch) %>%
   mutate(Catch=ifelse(is.na(Catch),0,Catch),
          Type="NOA")
 
 Year_DEL <- data.frame(Year = seq(1,(yr.end-1974)*4),
-                       Area = rep(c("A1","A2","A3","A4"), each = (yr.end-1974)*4))
+                       Area = rep(c("A1","A2","A3","A4","A5"), each = (yr.end-1974)*4))
 YFT_DEL_Catch <- rbind(YFT.DEL.Catch.19751999,YFT.DEL.Catch.20002023) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
-  gather(3:6,key="Area",value="Catch") %>% 
+  gather(3:7,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
 YFT_DEL_Catch <- left_join(Year_DEL,YFT_DEL_Catch) %>%
   mutate(Catch=ifelse(is.na(Catch),0,Catch),
@@ -132,7 +132,7 @@ ggplot(data=YFT_DEL_Comp_Long %>% filter(Year>104, Year<113)) +
   theme_bw()
 ```
 
-```{r plot comp data - 1}
+```{r plot comp data}
 names(YFT_PS_Comp)[5:205] <- 1:201
 YFT_PS_Comp_mean <- YFT_PS_Comp %>%
   gather(5:205,key="Length",value=comp) %>%
@@ -142,25 +142,7 @@ YFT_PS_Comp_mean <- YFT_PS_Comp %>%
   mutate(Length=as.numeric(Length),Comp=Comp/sum(Comp))
 
 ggplot(data=YFT_PS_Comp_mean) +
-  geom_line(aes(x=Length,y=Comp,color=area)) +
+  geom_smooth(aes(x=Length,y=Comp,color=area), se = FALSE, span = 0.2) +
   facet_wrap(~Type,nrow = 3) +
   theme_bw(16)
-```
-
-```{r plot comp data - 2}
-names(YFT_PS_Comp)[5:205] <- 1:201
-YFT_PS_Comp_plot <- YFT_PS_Comp %>%
-  gather(5:205,key="Length",value=comp) %>%
-  mutate(Length = as.numeric(Length))
-
-ggplot(data=YFT_PS_Comp_plot %>% filter(Type == "DEL")) +
-  geom_tile(aes(x=Year,y=Length,fill=comp)) +
-    scale_fill_gradient(
-    low = "white",
-    high = "red",
-    na.value = "grey",
-    limits = c(0, 0.1)
-  ) +
-  coord_cartesian(xlim = c(80,120), ylim = c(50,150)) +
-  facet_wrap(~area,nrow=4)
 ```
