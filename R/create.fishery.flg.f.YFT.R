@@ -29,7 +29,7 @@ create.fishery.flg.f.YFT = function(strat.defns,PS)
     areagear[(strat.defns$gear==4 | strat.defns$gear==7) & strat.defns$area==2]<-"DP.A2"
     areagear[(strat.defns$gear==4 | strat.defns$gear==7) & strat.defns$area==3]<-"DP.A3"
     areagear[(strat.defns$gear==4 | strat.defns$gear==7) & strat.defns$area==4]<-"DP.A4"
-    areagear[(strat.defns$gear==4 | strat.defns$gear==7) & strat.defns$area==5]<-"DP.A5"
+    # areagear[(strat.defns$gear==4 | strat.defns$gear==7) & strat.defns$area==5]<-"DP.A5"
     # areagear[(strat.defns$gear==4 | strat.defns$gear==7) & strat.defns$area==6]<-"DP.A6"
   }
   

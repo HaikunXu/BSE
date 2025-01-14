@@ -37,7 +37,7 @@ create.strat.flg.f.YFT = function(lat.5deg,lon.5deg,is.lwrght,month,setype,vesse
   # Catch areas for YFT in DEL
   if(PS=="DEL") {
 
-    area <- Locations$area
+    area <- ifelse(Locations$area == 5, 3, Locations$area)
     
     # Fishery area-gears for YFT in DEL (UNA and OBJ are junk)
     print("Using fishery stratification: YFT SAC 12 DEL")
@@ -52,7 +52,7 @@ create.strat.flg.f.YFT = function(lat.5deg,lon.5deg,is.lwrght,month,setype,vesse
     fishery.areagear[(gear==4 | gear==7) & area==2]<-"DP.A2"
     fishery.areagear[(gear==4 | gear==7) & area==3]<-"DP.A3"
     fishery.areagear[(gear==4 | gear==7) & area==4]<-"DP.A4"
-    fishery.areagear[(gear==4 | gear==7) & area==5]<-"DP.A5"
+    # fishery.areagear[(gear==4 | gear==7) & area==5]<-"DP.A5"
     # fishery.areagear[(gear==4 | gear==7) & area==6]<-"DP.A6"
   }
   

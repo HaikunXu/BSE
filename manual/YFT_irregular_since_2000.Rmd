@@ -53,12 +53,11 @@ area.substitution.mat.NOA <- matrix(
 )
 
 area.substitution.mat.DEL <- matrix(
-  c(1, 2, 4, 3, 5,
-    2, 1, 4, 3, 5,
-    3, 4, 2, 1, 5,
-    4, 3, 2, 5, 1,
-    5, 4, 3, 2, 1),
-  ncol = 5,
+  c(1, 2, 4, 3,
+    2, 1, 4, 3,
+    3, 4, 2, 1,
+    4, 3, 2, 1),
+  ncol = 4,
   byrow = TRUE
 )
 
@@ -214,7 +213,7 @@ save(list=objects(pat="fishery.estimates"),file=paste0(save_dir,"YFT_",PS,"_2000
 Get final DEL catch and comp output for the stock assessment
 
 ```{r}
-YFT.DEL.Catch.20002023<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4","A5")) # two DEL fisheries
+YFT.DEL.Catch.20002023<-compile.catch.output.f(yr.start,yr.end,PS=PS,Species=Species,c("A1","A2","A3","A4")) # two DEL fisheries
 YFT.DEL.Comp.20002023<-compile.sizecomps.output.f(yr.start,yr.end,PS=PS,Species=Species)
 ```
 

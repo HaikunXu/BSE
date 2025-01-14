@@ -55,10 +55,10 @@ YFT_NOA_Catch <- left_join(Year_NOA,YFT_NOA_Catch) %>%
          Type="NOA")
 
 Year_DEL <- data.frame(Year = seq(1,(yr.end-1974)*4),
-                       Area = rep(c("A1","A2","A3","A4","A5"), each = (yr.end-1974)*4))
+                       Area = rep(c("A1","A2","A3","A4"), each = (yr.end-1974)*4))
 YFT_DEL_Catch <- rbind(YFT.DEL.Catch.19751999,YFT.DEL.Catch.20002023) %>% 
   mutate(Year=(year-1975)*4+quarter) %>%
-  gather(3:7,key="Area",value="Catch") %>% 
+  gather(3:6,key="Area",value="Catch") %>% 
   select(Year,Area,Catch)
 YFT_DEL_Catch <- left_join(Year_DEL,YFT_DEL_Catch) %>%
   mutate(Catch=ifelse(is.na(Catch),0,Catch),
@@ -70,12 +70,6 @@ write.csv(YFT_PS_Catch,file=paste0(save_dir,"YFT_PS_Catch_1975-",yr.end,".csv"),
 
 ```{r plot catch data}
 ggplot(data=YFT_PS_Catch) +
-  geom_line(aes(x=Year,y=Catch,color=Area)) +
-  facet_wrap(~Type,nrow=3,scales = "free") +
-  geom_vline(xintercept = 100.5,linetype = "dashed") +
-  theme_bw(16)
-
-ggplot(data=YFT_PS_Catch %>% filter(Year > 90, Year < 120)) +
   geom_line(aes(x=Year,y=Catch,color=Area)) +
   facet_wrap(~Type,nrow=3,scales = "free") +
   geom_vline(xintercept = 100.5,linetype = "dashed") +
